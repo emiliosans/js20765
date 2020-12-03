@@ -23,11 +23,14 @@ function informarMayoriaEdad ()
         //informar error entrada
     //si no, es un número
         //comparar límite de mayoria
+    let elemento_div = document.getElementById("solucion");
     if (edad >= MAYORIA_DE_EDAD)
     { 
         console.log("Es mayor de edad");
+        elemento_div.innerHTML="Es mayor de edad";
     } else {
         console.log("Es menor de edad");
+        elemento_div.innerHTML="Es menor de edad";
     }
         //si mayor de límite
             //informar mayor
