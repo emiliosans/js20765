@@ -1,0 +1,14 @@
+IDE -- Integrated Development Enviroment
+mkdir -- comando para crear directorios
+ls -- comando para listar el contenido de un directorio
+pwd -- comando para saber en qué directorio estoy print working directory
+f() JS --  funcionar pag. : MODIFCAR Elementos / AJAX
+ECMA Script -- Estándar JS
+git -- Sistema de control de versiones: compartir código, gestionar versio
+origin  https://github.com/oibeas/hamburgueseria.git (fetch)
+origin  https://github.com/oibeas/hamburgueseria.git (push)pwd
+
+
+/Users/tardes/profe/hamburgueseria
+
+ls -a
