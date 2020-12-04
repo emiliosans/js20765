@@ -13,12 +13,21 @@ function prepararNumero (letra, numero)
 
 function mostrarResultado (letra_resultado)
 {
-    //CREAR UN NUEVO ELEMENTO
-    var nuevo_elemento_div = document.createElement("div");
-    nuevo_elemento_div.innerHTML="Tu letra es " + letra_resultado;
-    //Y AÑADIRLO AL HTML
-    var etiqueta_body = document.getElementById("cuerpo");
-    etiqueta_body.appendChild(nuevo_elemento_div);
+    //SI NO EXISTE EL DIV
+        //CREA
+    //ACTUALIZAR EL INNER
+
+    let el_div = document.querySelector('div');
+
+    if (el_div==null) {
+        //CREAR UN NUEVO ELEMENTO
+        console.log("No existe el div");
+        el_div = document.createElement("div");
+        var etiqueta_body = document.getElementById("cuerpo");
+        etiqueta_body.appendChild(el_div);
+        console.log("div creado");
+    } 
+    el_div.innerHTML="Tu letra es " + letra_resultado;
 }
 
 function calcularLetraDni ()
