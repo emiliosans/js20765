@@ -26,3 +26,5 @@ var / let --> palabra reservada para declarar una variable
 CASTEAR / CASTING --> CONVERSIÓN EQUIVALENTE DE TIPOS
 parseInt --> f() global que convierte una cadena en un número de String a INt
 Parsear --> Recorrer de inicio a fin una estrcutra (fichero, cadena) y clasificar su contenido
+
+https://caniuse.com/ --> Página de consulta de APIS WEB (JS, CSS, HTML)
