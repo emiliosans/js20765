@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!--
         HACER UNA APP QUE HAGA LO SIGUIENTE:
@@ -25,19 +26,97 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-     <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
     <script>
-        this.onload = carga;//SIN PARÉNTESIS
-        function carga() {
-            let elemento_vidas = document.getElementById("vidas");
-        elemento_vidas.innerHTML=5;
-        console.log(Math.random());
-      }
-      
-       
+        this.onload = inicio;//SIN PARÉNTESIS
+        const NUM_INTENTOS_MAX = 1;
+        const RUTA_FOTO_PIERDE = "https://media.tenor.com/images/9ff77762b2ae15c8f78fb711982fbf73/tenor.gif";
+        const RUTA_FOTO_GANA = "https://i.pinimg.com/originals/0e/68/6f/0e686faa391f1f47ab74fd21a3124103.gif";
+        let naleatorio;//ámbito global : accesible desde todas las funciones
+        let num_intentos;//declaro
+        let elemento_imagen_res;
+        function inicio() {
+            //CALCULAR EL NUMERO ALEATORIO
+            naleatorio = Math.floor(Math.random() * 100) + 1;
+            console.log ("Num secreto "+ naleatorio);
+            num_intentos = 0;
+            document.getElementById("vidas").innerHTML = NUM_INTENTOS_MAX;
+            elemento_imagen_res = document.querySelector("img");
+            document.querySelector("a").style.visibility = "hidden";
+        }
+        function comprobarIntento() {
+
+            //1 obtener el número intro por el usuario
+            let nuser = document.getElementById("num_usuario").value;
+            console.log("numero usr = " + nuser);
+            //2 compararlo con el que hay que adivinar
+            //si IGUAL
+            //MOSTRAR EL GIF INFO EXITO
+            if (nuser == naleatorio) {
+                console.log("ACIERTO!");
+                document.getElementById("info").innerHTML="HAS ACERTADO";
+                elemento_imagen_res.setAttribute ("src", RUTA_FOTO_GANA);
+                document.querySelector("a").style.visibility = "visible";
+            }
+            //si MAYOR
+            //INFORMAR MAYOR
+            //restar intentos disponibles
+            else {
+                console.log("Ha fallado");
+                num_intentos++;
+                //actualizo intentos
+                document.getElementById("vidas").innerHTML = NUM_INTENTOS_MAX - num_intentos;
+                //QUEDAN VIDAS?
+                if (nuser > naleatorio) {
+                    console.log("el buscado es menor");
+                    document.getElementById("info").innerHTML="el buscado es menor";
+                }
+                //si MENOR
+                //INFORMAR MENOR
+                //restar intentos disponibles 
+                else {
+                    console.log("el buscado es mayor");
+                    document.getElementById("info").innerHTML="el buscado es mayor";
+                }
+
+                if (num_intentos == NUM_INTENTOS_MAX) {
+                    console.log("SE ACABÓ");
+                    document.getElementById("info").innerHTML="Perdiste. Buscábamos el " + naleatorio;
+                    elemento_imagen_res.setAttribute ("src", RUTA_FOTO_PIERDE);
+                    document.querySelector("a").style.visibility = "visible";
+                }
+
+            }
+
+
+        }
+        function reiniciar()
+        {
+            console.log("toco reiniciar");
+            //location.href = "juego.html";
+            location.reload();
+           /* document.querySelector("a").style.visibility = "hidden";
+            document.querySelector("img").setAttribute ("src","" );
+            document.getElementById("info").innerHTML="";
+            document.getElementById("num_usuario").value="";
+            inicio();*/
+        }
+
+
     </script>
 </head>
+
 <body>
+    <a href="#" onclick="reiniciar()">VOLVER A JUGAR</a>
+    <!-- <a href="juego.html" onclick="reiniciar()">VOLVER A JUGAR</a> -->
+    <br>
+    <input type="number" id="num_usuario">
+    <input type="button" value="PROBAR" onclick="comprobarIntento()">
     <div id="vidas"></div>
+    <div id="intetos">VIDAS</div>
+    <div id="info"></div>
+    <img id="imgres">
+
 </body>
+
 </html>
