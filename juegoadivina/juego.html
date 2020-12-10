@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        HACER UNA APP QUE HAGA LO SIGUIENTE:
+
+         LA PÁGINA DEBE PENSAR UN NÚMERO DEL 1 AL 100
+        Y DEBE DARLE 5 OPORTUNADIDES MÁXIMO AL USUARIO
+        PARA ADIVINARLO
+
+        DEBEMOS MOSTRAR UN CONTADOR DE LAS VIDAS QUE LE QUEDAN
+        AL USUARIO EN TODO MOMENTO
+
+        DEBEMOS INFORMARLE CADA VEZ QUE PRUEBA SI 
+        EL NUMERO INTROUCIDO ES MENOR O MAYOR QUE EL BUSCADO
+        A MODO DE PISTA
+
+        SI LO ACIERTA, LE FELICTAMOS CON UN GIF ANIMADO
+        SI FALLA, IGUAL, PERO ADEMAS, LE INDICAMOS EL NÚMERO BUSCADO
+
+
+
+    -->
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+     <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <script>
+        this.onload = carga;//SIN PARÉNTESIS
+        function carga() {
+            let elemento_vidas = document.getElementById("vidas");
+        elemento_vidas.innerHTML=5;
+        console.log(Math.random());
+      }
+      
+       
+    </script>
+</head>
+<body>
+    <div id="vidas"></div>
+</body>
+</html>

@@ -1,5 +1,11 @@
 
-
+/**
+ * Función que muestra el valor nominal
+ * y la imagen correspondiente al imc recibido
+ * 
+ * @param {*} imc el valor real de índice de masa corporal
+ * @returns 
+ */
 function mostrarResultado(imc) {
     let el_figcaption = document.querySelector("figcaption");
     let el_img = document.querySelector("img");
