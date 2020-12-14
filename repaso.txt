@@ -28,3 +28,8 @@ parseInt --> f() global que convierte una cadena en un número de String a INt
 Parsear --> Recorrer de inicio a fin una estrcutra (fichero, cadena) y clasificar su contenido
 
 https://caniuse.com/ --> Página de consulta de APIS WEB (JS, CSS, HTML)
+visibilidad elemento --> style.visibility== hidden || visible
+location.reload() --> recargar la página actual
+location.href --> atriburto que representa url del navegador
+onload --> evento / listener programable para cuando la página se parsee por completo
+Math.randon () --> numero aleatorio entre [0, 1)
