@@ -29,13 +29,16 @@
     <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
     <script>
         //mostrarNombreJugador ();
+       
+
         this.onload = inicio;//SIN PARÉNTESIS programa el listener vs CON paréntesis llama en este momento
-        const NUM_INTENTOS_MAX = 1;
+        const NUM_INTENTOS_MAX = 5;
         const RUTA_FOTO_PIERDE = "https://media.tenor.com/images/9ff77762b2ae15c8f78fb711982fbf73/tenor.gif";
         const RUTA_FOTO_GANA = "https://i.pinimg.com/originals/0e/68/6f/0e686faa391f1f47ab74fd21a3124103.gif";
         let naleatorio;//ámbito global : accesible desde todas las funciones
         let num_intentos;//declaro
         let elemento_imagen_res;
+        let numeros_jugados;//array de numeros jugados
 
 
         function infoNombre ()
@@ -92,6 +95,9 @@
             //document.querySelector("a").style.visibility = "hidden";
             ocultarEnlaces ();
             mostrarNombreJugador();
+            //INICIAMOS EL ARRAY DE NUMEROS
+            numeros_jugados=[];//inicializo init
+            
             
         }
         function comprobarIntento() {
@@ -99,6 +105,11 @@
             //1 obtener el número intro por el usuario
             let nuser = document.getElementById("num_usuario").value;
             console.log("numero usr = " + nuser);
+            numeros_jugados.push(nuser);//actualizo el array
+            //ordenar
+            numeros_jugados.sort();
+            //muestro el array
+            document.getElementById("numeros_jugados").innerHTML=numeros_jugados;
             //2 compararlo con el que hay que adivinar
             //si IGUAL
             //MOSTRAR EL GIF INFO EXITO
@@ -175,9 +186,11 @@
         <input type="button" value="PROBAR" onclick="comprobarIntento()">
         <div id="vidas"></div>
         <div id="intetos">VIDAS</div>
+        <div id="numeros_jugados"></div>
         <div id="info"></div>
         <img id="imgres">
     </div>
+   
     <div id="divnojuego">
         <a href="intronombre.html" id="mensaje_nombre_obligatorio" onclick="cambiarNombre()">DEBE INTRODUCIR UN NOMBRE OBLIGATORIO</a>
     </div>
