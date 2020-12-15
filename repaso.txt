@@ -31,5 +31,39 @@ https://caniuse.com/ --> Página de consulta de APIS WEB (JS, CSS, HTML)
 visibilidad elemento --> style.visibility== hidden || visible
 location.reload() --> recargar la página actual
 location.href --> atriburto que representa url del navegador
+location.assign(url) vs location.replace(url)
+    los dos te dirigen a un url nueva
+    la diferencia es que con assign se actualizba el Historial del navegador
 onload --> evento / listener programable para cuando la página se parsee por completo
 Math.randon () --> numero aleatorio entre [0, 1)
+--
+
+parámetros URL --> strings que van en la URL
+    ? inicio params
+    & separador de params
+    utlidad --> intercambiar info entre páginas o entre cli-servidor
+
+getElementsByTagName --> metodo que nos delolvia un array de Elementos
+array --> [] corchetes 
+    atributos interesantes
+        length: número de Elementos
+    función o métodos interesantes
+        sort --> ordenar
+        push --> insertar
+    acceder a un Elemento
+        array [posición] -- usamos el índice
+    borrar array   
+        array = null -No existe array.length --> error
+        array = [] -No existe array.length --> 0
+    "recorrer" --> ir del inicio al final de una estructura de datos
+    for .. of --> "bucle moderno" para iterar por una colección
+
+API localStorage y sessionStorage
+
+    métodos 
+        setItem (clave, valor)
+        getItem (clave):valor
+
+    localStorage --> "memoria permanente" (asociado al navegador)
+    sessionStorage --> "memoria volátil" (asociada a ventan concreta)
+

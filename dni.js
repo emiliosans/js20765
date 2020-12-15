@@ -3,10 +3,13 @@ const LETRAS_DNI = "TRWAGMYFPDXBNJZSQVHLCKE";
 
 class Dni {
    
-        constructor(numero) {
+        constructor(numero, letra) {
+        //qué tengo-propiedes-atributos--fields-campos
           this.numero = numero;
+          this.letra = letra;
         }
 
+            //FUNCIONES
         calculaLetra ()
         {
             let resto = (this.numero % 23);
@@ -16,6 +19,26 @@ class Dni {
             console.log (this.toString());
             return letradni;
         }
+
+        esDniValido ()
+        {
+            let esvalido = false;
+
+                //COMPARAR LA LETRA DEL DNI CON LA CALCULADA
+                let letra_calcuada = this.calculaLetra();
+                if (this.letra == letra_calcuada)
+                {
+                    esvalido=true;
+                }
+
+            return esvalido;
+        }
+
+        
+
+        //Y hacer un método que diga 
+        //si un dni es correcto
+        //corresponde su nº y letra
       
 }
 
@@ -24,9 +47,20 @@ class Dni {
 function calcularLetraDni2 ()
 {
     var ndni = document.getElementById("dni").value;
-    let dni = new Dni (ndni);
+    let dni = new Dni (ndni, "");
     var l = dni.calculaLetra();
+    let dni2 = new Dni (ndni, l);
     console.log ("La letra del dni es = " + l);
+    let valido = dni2.esDniValido();
+    let dni_adal = new Dni(20259498, "V");
+    if (dni_adal.esDniValido())
+    {
+        console.log("El dni de ADAL es correcto");
+    } else 
+    {
+        console.log("ADAL me ha engañado");
+    }
+    console.log ("Es valido = " + valido);
 }
 function prepararNumero (letra, numero)
 {
