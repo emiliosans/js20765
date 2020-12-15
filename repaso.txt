@@ -4,11 +4,32 @@ ls -- comando para listar el contenido de un directorio
 pwd -- comando para saber en qué directorio estoy print working directory
 f() JS --  funcionar pag. : MODIFCAR Elementos / AJAX
 ECMA Script -- Estándar JS
-git -- Sistema de control de versiones: compartir código, gestionar versio
-origin  https://github.com/oibeas/hamburgueseria.git (fetch)
-origin  https://github.com/oibeas/hamburgueseria.git (push)pwd
 
 
-/Users/tardes/profe/hamburgueseria
+LISTENER --> Programar el listener es escuchar eventos
+CALLBACK --> La llamada desde otro programa a una f() mía
+document --> la variable predefinida que representaba el XML/HTML
+window --> la variable predefinida que representaba la ventana del navegador
+HTMLElement --> Elemento o etiqueta
+document.getElementById --> obtenemos un elmento por su nombre
+docuement.createElement --> creaabamos un nuevo Elemento
+docuement.appendChild --> añadimos y hacemos visible el elemento 
+innerHTML --> atributo de un elemento "lo del en medio" - entre las etiquetas de apertura y cierre -
+// --> comentario de una línea
+/* */ --> comentario multilínea
+String.charAt() --> método para obtener una letra concreta
+API --> Todo lo que yo puedo llamar como programador
+const --> palabra reservada para definir constantes
+var / let --> palabra reservada para declarar una variable
+ámbito --> parte de código donde una variable existe : global 
 
-ls -a
+CASTEAR / CASTING --> CONVERSIÓN EQUIVALENTE DE TIPOS
+parseInt --> f() global que convierte una cadena en un número de String a INt
+Parsear --> Recorrer de inicio a fin una estrcutra (fichero, cadena) y clasificar su contenido
+
+https://caniuse.com/ --> Página de consulta de APIS WEB (JS, CSS, HTML)
+visibilidad elemento --> style.visibility== hidden || visible
+location.reload() --> recargar la página actual
+location.href --> atriburto que representa url del navegador
+onload --> evento / listener programable para cuando la página se parsee por completo
+Math.randon () --> numero aleatorio entre [0, 1)
