@@ -89,6 +89,18 @@ function actualizarIntentos() {
     document.getElementById("vidas").innerHTML = NUM_INTENTOS_MAX - num_intentos;
 }
 
+//llamamos a este método cuando acabe la partida
+function informarPartida ()
+{
+    //creo el objeto Partida
+    let nombre_jugador = localStorage.getItem("nombre_jugador");
+
+    let partida = new Partida(nombre_jugador, num_intentos);
+    //imprimo la info de la partida
+    partida.mostrarPartida();
+}
+
+
 function comprobarIntento() {
 
     //1 obtener el número intro por el usuario
@@ -99,6 +111,7 @@ function comprobarIntento() {
     if (nuser == naleatorio) //ha acertado
     {
         informarExito();
+        informarPartida();
     }
     else {
         console.log("Ha fallado");
@@ -114,6 +127,7 @@ function comprobarIntento() {
 
         if (num_intentos == NUM_INTENTOS_MAX) {
             informarFinDerrota();
+            informarPartida();
         }
     }
 }

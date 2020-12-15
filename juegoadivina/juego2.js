@@ -1,3 +1,20 @@
+
+class Partida {
+
+    constructor (nombre_jugador, num_intentos)
+    {
+        this.nombre = nombre_jugador;
+        this.intentos = num_intentos;
+    }
+
+    mostrarPartida ()
+    {
+        console.log("Nombre jugador = " + this.nombre);
+        console.log("Num intentos = " + this.intentos);
+
+    }
+}
+
 //TODO
 //definir una CLASE Partida
 //que contenga el NOMBRE del usuario

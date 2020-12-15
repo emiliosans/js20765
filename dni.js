@@ -55,6 +55,7 @@ function calcularLetraDni2 ()
     let dni_adal = new Dni(20259498, "V");
     if (dni_adal.esDniValido())
     {
+        console.log (JSON.stringify(dni_adal));
         console.log("El dni de ADAL es correcto");
     } else 
     {

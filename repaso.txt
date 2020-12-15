@@ -35,7 +35,7 @@ location.assign(url) vs location.replace(url)
     los dos te dirigen a un url nueva
     la diferencia es que con assign se actualizba el Historial del navegador
 onload --> evento / listener programable para cuando la página se parsee por completo
-Math.randon () --> numero aleatorio entre [0, 1)
+Math.random () --> numero aleatorio entre [0, 1)
 --
 
 parámetros URL --> strings que van en la URL
