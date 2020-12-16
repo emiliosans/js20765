@@ -13,6 +13,33 @@ class Partida {
         console.log("Num intentos = " + this.intentos);
 
     }
+
+    guardarPartida ()
+    {
+        //SI EXISTE EL ARRAY
+            //LO CARGO DE LA MEMORIA
+        //SI NO
+            //LO CREO
+        
+        //AÑADO LA NUEVA PARTIDA
+        //ARRAY A JSON
+        //GUARDO NUEVO ARRAY
+        //let json_partida = JSON.stringify(this);
+        let array_partidas = null;
+    
+        let array_partidas_json = localStorage.getItem("array_partidas");
+        if (array_partidas_json!=null) 
+        {
+            array_partidas = JSON.parse(array_partidas_json);//EXISTE --> LO CARGO
+        } else {
+            array_partidas = [];////no existe un array --> LO CREO
+        }
+        array_partidas.push (this);//añado la nueva partida
+        let nuevo_array_partidas_json = JSON.stringify(array_partidas);//la paso a JSON
+        localStorage.setItem("array_partidas", nuevo_array_partidas_json);//la guardo
+            
+        //localStorage.setItem("utlima_partida", json_partida);
+    }
 }
 
 //TODO

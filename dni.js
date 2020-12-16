@@ -34,11 +34,23 @@ class Dni {
             return esvalido;
         }
 
+        static dniValido (dni)
+        {
+            let esvalido = false;
+                //COMPARAR LA LETRA DEL DNI CON LA CALCULADA
+                let letra_calcuada = dni.calculaLetra();
+                if (dni.letra == letra_calcuada)
+                {
+                    esvalido=true;
+                }
+            return esvalido;
+        }
         
 
-        //Y hacer un método que diga 
-        //si un dni es correcto
-        //corresponde su nº y letra
+        //TODO hacer una versión estática
+        //del método esDniValido
+
+    
       
 }
 
@@ -53,9 +65,9 @@ function calcularLetraDni2 ()
     console.log ("La letra del dni es = " + l);
     let valido = dni2.esDniValido();
     let dni_adal = new Dni(20259498, "V");
-    if (dni_adal.esDniValido())
+    //if (dni_adal.esDniValido())
+    if (Dni.dniValido(dni_adal))
     {
-        console.log (JSON.stringify(dni_adal));
         console.log("El dni de ADAL es correcto");
     } else 
     {

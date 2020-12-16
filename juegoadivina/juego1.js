@@ -98,6 +98,7 @@ function informarPartida ()
     let partida = new Partida(nombre_jugador, num_intentos);
     //imprimo la info de la partida
     partida.mostrarPartida();
+    partida.guardarPartida();
 }
 
 
