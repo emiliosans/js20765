@@ -26,7 +26,6 @@ class Partida {
         //GUARDO NUEVO ARRAY
         //let json_partida = JSON.stringify(this);
         let array_partidas = null;
-    
         let array_partidas_json = localStorage.getItem("array_partidas");
         if (array_partidas_json!=null) 
         {

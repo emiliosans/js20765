@@ -5,7 +5,7 @@ const RUTA_FOTO_GANA = "https://i.pinimg.com/originals/0e/68/6f/0e686faa391f1f47
 let naleatorio;//ámbito global : accesible desde todas las funciones
 let num_intentos;//declaro
 let elemento_imagen_res;
-let numeros_jugados;//array de numeros jugados
+let numeros_jugados= null;//array de numeros jugados
 
 function ocultarEnlaces() {
     let enlaces = document.getElementsByTagName("a");
