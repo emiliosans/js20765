@@ -2,6 +2,8 @@
 onload = mostrarTablaResultados;
 
 let tabla;
+let array_partidas = null;
+
 function mostrarTablaResultados ()
 {
     console.log("mostrando resultados");
@@ -10,7 +12,7 @@ function mostrarTablaResultados ()
         {
             console.log("Hay partidas que mostrar");
             console.log("Partidas = " + array_partidas_json);
-            let array_partidas = JSON.parse(array_partidas_json);//EXISTE --> LO CARGO
+            array_partidas = JSON.parse(array_partidas_json);//EXISTE --> LO CARGO
             tabla = document.getElementById("tabla");
             mostrarTabla(array_partidas);
         } else {
@@ -42,4 +44,50 @@ function mostrarPartida (partida)
     nuevafila.appendChild(tdintentos);
     //AÑADIR EL TR A LA TABLA
     tabla.appendChild(nuevafila);
+}
+
+function borrarTabla()
+{
+    let filas = tabla.childNodes;
+    for (var i = filas.length-1; i > 1; i-- ) {
+        filas[i].remove();
+      }
+}
+
+function repintarArray()
+{
+    borrarTabla();
+    mostrarTabla(array_partidas);
+}
+
+function sortPorNombre ()
+{
+    array_partidas.sort (ordenarPorNombre);
+    repintarArray();
+}
+
+function sortPorIntentos ()
+{
+    array_partidas.sort (ordenarPorIntentos);
+    repintarArray();
+}
+
+function ordenarPorNombre (partida1, partida2)
+{
+    let resultado = 0;
+
+       resultado = partida1.nombre.localeCompare(partida2.nombre);
+
+    return resultado;
+}
+
+function ordenarPorIntentos (partida1, partida2)
+{
+
+    let resultado = 0;
+
+        resultado = partida1.intentos-partida2.intentos;
+
+    return resultado;
+
 }

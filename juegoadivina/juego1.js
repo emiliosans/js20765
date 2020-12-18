@@ -30,6 +30,7 @@ function mostrarEnlaces() {
     let enlaces = document.getElementsByTagName("a");
     enlaces[0].style.visibility = "visible"
     enlaces[1].style.visibility = "visible"
+    enlaces[2].style.visibility = "visible"
     /*for (enlace of enlaces)//recorrer : ir de princiio a fin de una estruc
     {
         enlace.style.visibility = "visible";
