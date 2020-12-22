@@ -67,3 +67,38 @@ API localStorage y sessionStorage
     localStorage --> "memoria permanente" (asociado al navegador)
     sessionStorage --> "memoria volátil" (asociada a ventan concreta)
 
+
+SERIALIZAR: PASAR DE VARIABLE(OBJETO) A texto
+            JSON.stringify (objeto):stringify
+DESERIALZIAR: PASAR DE TEXTO a OBJETO (var)
+                JSON.parse (var):objeto
+
+PARA DOS COSAS: PARA TRANSIMITIR INFO
+                Y PARA GUARDARLA
+
+
+AJAX: Técnología de JS para realizar comunicaciones
+        con otro equipo a través de INTERNET
+
+        NOS permite enviar y recibir MENSAJES https
+        XMLHttpRequest 
+        JavaScript Asíncrono
+        Promesas Observables
+
+        comunicación:
+        URL protocolo://ip:puerto/appp/servicio?parametros=valor&p2=v2
+
+HTTP : cabecera y cuerpo
+        atributos de la cabecera
+            status code: ¿ha ido bien la cosa?
+            content-type: tipo mime: qué tipo de info viaja en el cuerpo
+            método: GET Y POST (obtner info del servidor // enviar info)
+            url
+        cuerpo: contenido (a veces vacío)
+
+
+validar en cliente y servidor
+
+
+
+

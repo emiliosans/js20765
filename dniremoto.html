@@ -41,15 +41,17 @@
                 console.log("respuesta rx");
                 if (xhr.status == 200) {
                     console.log("respuesta OK");
-                    let letra_rx = xhr.responseText;
-                    console.log("letra rx = " + letra_rx);
-    
+                    let dni_json = xhr.responseText;
+                    let objeto_dni = JSON.parse(dni_json); 
+                    console.log("dni_json = " + dni_json);
+                    document.getElementById("txtLetra").value= objeto_dni.letra;
 
                 } else {
-                    console.log("COd respuesta " + xhr.status);
+                    alert("Petición incorrecta");
                 }
             }
         }
+   
 
     </script>
 </head>
