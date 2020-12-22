@@ -5,7 +5,7 @@ function buscar ()
 {
     let busqueda = document.getElementById("textobusqueda").value;
     console.log("Vamos a buscar: " + busqueda);
-    let url = URL_ITUNES+busqueda;
+    let url = encodeURI(URL_ITUNES+busqueda);
     //TODO Normalizar la URL para codificar corretamente espacios, tildes
     console.log("URL solicitada " + url);
     xhr.open("GET", url);
