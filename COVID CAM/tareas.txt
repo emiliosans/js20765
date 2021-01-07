@@ -1,0 +1,39 @@
+FUNCIONALIDAD           ALUMNO
+
+Mapa Madrid
+Y Ubicación 
+Favorita                Juan Carlos
+
+Datos CAM
+LOCALIDAD ZBS           Jon y Óscar
+
+COMPARATIVA
+por Localidad o ZBS     Natalia
+
+CRÉDITOS
+Y HUEVO DE PASCUA       Jaime
+
+DATOS MINISTERIO
+CONTAGIOS CCAA Y PROV   Ana y Nacho
+
+NOTICIAS OMS            Ilde y Juanan
+RSS                     
+
+AUTO TEST               Hector y Ernesto
+
+ICONO
+MENÚS
+CSS                     Olga
+
+DATOS VACUNACIÓN        Adal y Emilio
+
+DATOS HOSPITALES
+ZBS CONFINADAS
+(GITHUB)                Carlos
+
+DOCUMENTACIÓN
+y UML                   Pilar y Mar
+
+TAREAS PENDIENTES: GIT, Pantalla animación
+
+

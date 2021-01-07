@@ -9,6 +9,19 @@
     <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATywVsUuLkCWuZMV_OppTYMTYiURooQ7k&callback=initMap"></script>
     <script src='ubicacion.js'></script>
 </head>
+
+const ID_LUGAR = "ChIJd3WcsXiKQQ0R6QCqzzeHf_Y";
+//const CLAVE_API_GOOGLE_PLACES = "AIzaSyDSJ0TaBCe7diDWhqwQkzntFLDvrLwbDy0";
+//const CLAVE_API_GOOGLE_PLACES = "AIzaSyC0EqXtneBSdGqJ11V3hu1qXf5-fCoQUy4";
+//const CLAVE_API_GOOGLE_PLACES = "AIzaSyAYSLs6SOaLDKTb28RBcsZCCAaIuCoVqvA";
+
+const URI = "
+https://maps.googleapis.com/maps/api/place/details/json?placeid=" + ID_LUGAR + "&key=" + CLAVE_API_GOOGLE_PLACES;
+
+https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJd3WcsXiKQQ0R6QCqzzeHf_Y&key=AIzaSyDSJ0TaBCe7diDWhqwQkzntFLDvrLwbDy0
+
+
+
 <body>
     <button onclick="encuentrame()">DÓNDE ESTOY</button>
     <div id="out"></div>

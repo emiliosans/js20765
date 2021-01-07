@@ -1,6 +1,7 @@
 let divout = null;
 let mapa = null;
 
+
 const LATITUD_MADRID = 40.4167;
 const LONGITUD_MADRID = -3.70325;
 
@@ -19,6 +20,14 @@ function dibujarUbicacion(latitud, longitud) {
         );
 
         marcador.setMap(mapa);
+        //cuando toque el marker, quiero
+        //que el mapa se centre ahí
+
+        //funciones de flecha
+        marcador.addListener("click", () => {
+            mapa.setZoom (15);
+            mapa.setCenter(marcador.getPosition());
+        });
 
     } else {
         //boton deshabiltado y habilitado al recibir el mapa
