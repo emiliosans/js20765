@@ -9,6 +9,12 @@ function mostrarPerro (jsonperro)
 }
 
 //TODO MAÑANA SEGUIMOS Y HACEMOS TRAER UNA LISTA DE PERROS
+//¿quÉ ELEMENTO DE IONIC DEL CÁTALOGO USARIAMOS PARA REPRESENTAR LA LISTA)?
+
+//ION-LIST
+//ION-ROW
+//ION-SLIDE
+//ION-CARD
 function obtenerPerro ()
 {
     console.log("Ha pedido un perro");
