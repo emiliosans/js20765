@@ -99,6 +99,26 @@ HTTP : cabecera y cuerpo
 
 validar en cliente y servidor
 
+NODE/JS --> Intérprete de JS (fuera del navegador)
+            Es un programa que entiende JS
+            Ya podemos ejecutar progrmas js (scritps) fuera del navegador
+            Node inluye NPM
 
+NPM -->     Repositorio de código js (donde cualquiera puede subir códig y compartirlo)
+            El CLI o el programa instalamos en nuestro equipo y nos permite 
+                - Descargarnos librerías JS del repositorio NPM
 
+$ --> CONCATENAR ABREVIADAMENTE
+if TERNARIO --> https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Operadores/Conditional_Operator
+                CONDICION ? v : f;
 
+f() flecha/anónimas --> Más moderna, más econonómica, útil en algunos casos (this)
+
+array.map --> función que permite recorrer el array y transformar cada valor
+
+FETCH --> Alternativa a AJAX que funcionan con Promesas
+          Las promesas son una alternativa reciente para manejar lo Asíncrono en jsonplaceholder
+
+CDN --> Servidor en línea para ofrecer contenido de alta demanda
+CDN IONIC --> poder usar todos los componente de la Interfaz de Usuaario de IONIC
+Catálogo de componeres IU IOnic: https://ionicframework.com/docs/api/
