@@ -1,29 +1,58 @@
 const URI_PERRO_ALEATORIO = "https://dog.ceo/api/breeds/image/random";
 
-function mostrarPerro (jsonperro)
-{
-    console.log(jsonperro);
-    console.log ("URL imagen = " +jsonperro.message);
-    let imagen = document.getElementById("perronuevo");
-    imagen.src = jsonperro.message;
+function obtenerPerro() {
+    console.log("Has pedido un perro");
+
+    let valor = obtenerSeleccion(); ///Obtenemos el numero seleccionado
+    // console.log(valor);
+
+    // LO hacemos mediante Fetch. Es como una promesa.
+    fetch(URI_PERRO_ALEATORIO + "/" + valor) //Aqui hacemos la peticion del numero de perros seleccionado
+        .then(response => response.json()) //Cuando este lista, hacer esto.... RESPONSE es el cuerpo de la respuesta
+        .then(data => {
+            mostrarPerro(data.message);
+        });
+
 }
 
-//TODO MAÑANA SEGUIMOS Y HACEMOS TRAER UNA LISTA DE PERROS
-//¿quÉ ELEMENTO DE IONIC DEL CÁTALOGO USARIAMOS PARA REPRESENTAR LA LISTA)?
+// Funcion para mostrar un perro
+function mostrarPerro(jsonPerro) {
+    console.log(jsonPerro);
 
-//ION-LIST
-//ION-ROW
-//ION-SLIDE
-//ION-CARD
-function obtenerPerro ()
-{
-    console.log("Ha pedido un perro");
-    //TODO LLAMAR AL DOG API
-    fetch(URI_PERRO_ALEATORIO)//HAEMOS LA PETICIÓN GET
-        .then(response => response.json())//CUANDO ESTÉ LISTA, HACE ESTO --response es el cuerpo de la respuesta
-        .then(data => //data ya es el json
-                {
-                    console.log("llamar a mostrarPerro");
-                    mostrarPerro(data);
-                });
+    let myslide = document.getElementById("imagenslides");
+
+    let i = 0;
+    let slidePerro = "";
+
+    for (l = 0; i < jsonPerro.length; i++) {
+        slidePerro = document.createElement("ion-slide")
+
+        img = document.createElement("img");
+
+        img.src = jsonPerro[i];
+
+        slidePerro.appendChild(img)
+
+        myslide.appendChild(slidePerro);
+    }
+
+
+    myslide.options = {
+        initialSlide: 1,
+        speed: 400
+    }
+
+
+
 }
+
+
+
+function obtenerSeleccion() {
+    let seleccion = document.getElementById("seleccion");
+    // console.log(seleccion.value);
+    return seleccion.value;
+
+
+}
+
