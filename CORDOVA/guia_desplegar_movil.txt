@@ -59,9 +59,17 @@ EN LA SECCIÓN Installing manually
     cordova create MyApp
     cd MyApp
     cordova platform add android
-    cordova run android
+    cordova run android (ESTE ÚLTIMO PASO SÓLO VALE SI TIENES MOVIL ANDROID CONECTADO. SI NECESITAS EMULADOR, PUNTO 9)
 
 
+9 PARA EL DESPLIGUE EN DISPOSITIVO VIRTUAL 
 
+    CONFIGURAR UN EMULADOR DESDE ANDROID STUDIO
 
+        https://cordova.apache.org/docs/es/latest/guide/platforms/android/#configurar-un-emulador 
 
+    EJECUTAR PARA DESPLEGAR
+
+    cordova emulate android
+
+    
