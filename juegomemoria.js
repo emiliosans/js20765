@@ -6,13 +6,15 @@ this.onload = iniciarTablero; //this es window
 let div1;
 let div2;
 let primero=true;
+let max_aciertos;
+let num_aciertos=0;
 
-//TODO CONTROLAR EL FINAL DEL JUEGO
+
 function tapar (casilla1, casilla2)
 {
     
-    casilla1.style.opacity = 0;//hago visible
-    casilla2.style.opacity = 0;//hago visible
+    casilla1.style.opacity = 0;//hago invisible
+    casilla2.style.opacity = 0;//hago invisible
 
 }
 
@@ -21,7 +23,7 @@ function comprobar ()
     //this es el elemento que ha recibido el evento
     console.log("ha tocado el div " + this.innerHTML);
     this.style.opacity = 1;//hago visible
-    if (primero)
+    if (primero)//==true
     {
          
         div1 = this;//me lo guardo
@@ -32,15 +34,16 @@ function comprobar ()
         {
             //son distintos, los tapo
             setTimeout(tapar, 900, this, div1);
+        } else {
+            //han coincidido!
+            num_aciertos = num_aciertos + 1;
+            if (num_aciertos==max_aciertos)
+            {
+                alert("has ganado!!! Enhorabuena maestro");
+            }
         }
         primero = true;
     }
-    
-
-    //SI TOCO 1, Y ES EL PRIMERO --> DESTAPO
-    //SINO, SI ES EL SEGUNDO QUE TOCO
-        //ES EL MISMO QUE EL PRIMERO --> LOS DEJO DESTAPADOS
-        //SON DISTINTOS EL 1 Y EL 2 --> TAPAR AMBOS
 }
 
 function iniciarTablero ()
@@ -50,6 +53,8 @@ function iniciarTablero ()
 
     arrayDivs.forEach(i => i.style.opacity = 0);
     arrayDivs.forEach(i => i.addEventListener("click", comprobar));
-        
+    //calculamos el total de aciertos que debe conseguir el usuario
+    max_aciertos = arrayDivs.length/2;
+    console.log (`El jugador debe conseguir ${max_aciertos} aciertos`);    
 
 }

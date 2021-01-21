@@ -1,0 +1,48 @@
+1 DISPOSITIVO
+
+- AJUSTES: ACTIVAR OPCIONES PARA DESARROLLADOR
+
+    Buscamos el nº de compilación o (versión MIUI) y tocamos repetidas veces
+    encima, hasta que nos aparezca el mensaje de opciones de desarrollador activadas
+
+    Buscar opciones de desarrollador y activarlas (básico)
+
+    Depuración USB activada (básico)
+
+    Permitir instalación fuentes desconocidas (SAMSUNG y otros modelos)
+
+    Instalar via USB (XIAOMI)
+
+    Depuración USB (AJUSTES de seguridad) (XIAOMI)
+
+    Desactivar las opciones de Verificar aplicaciones y bytecode (XIAOMI)
+
+2 Conseguir un cable BUENO o a poder ser el oficial
+
+3 INSTALAR APACHA CORODOVA EN nuestro PC
+
+    npm install -g cordova
+
+    comprobar la versión instalada con cordova -v
+
+    CON CORDOVA, VAMOS A GENERAR EL ARCHIVO EJECTUABLE/INSTALABLE DE LA APP (APK-ANDROID- O EL IPA-IOS)
+
+    Necesitamos las herramientas nativas de la plataforma para conseguir el APK / IPA
+    
+    En el caso de Android https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html
+    En el caso de IOS https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html
+
+
+4 INSTALAR ANDROID STUDIO CON TODOS LOS EXTRAS EN NUESTRO EQUIPO
+
+    JDK (JAVA)
+    SDK (ANDROID)
+    GRADLE (NPM ANDROID)
+
+5 INSTALAR EL JDK https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
+
+5 SETEAR VARIABLES DE ENTORNO
+
+    ANDROID 
+    JAVA
+
