@@ -71,5 +71,7 @@ EN LA SECCIÓN Installing manually
     EJECUTAR PARA DESPLEGAR
 
     cordova emulate android
+    ó cordova run --emulator
+
 
     
