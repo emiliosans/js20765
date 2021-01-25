@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script>
+        onload = dibujarGrafico;
+        //PUGLIN DESAHIBLITAR CORS NAVEGADOR  --> FUNCIONA, PERO HABRÍA QUE ETUDAIR COMO HACERLO EN CORDOVA
+        //DESACARLO PREVIAMENTE  (Downlod manager -plugin-) Y CARGARLO DESDE LOCAL (Media File)
+        //IFRAME JC
+        function obtenerDatos ()
+        {
+            fetch("https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json")
+            .then (response => response.json())//paso de json a objeto
+            .then (data => console.log(data));
+        }
+        function dibujarGrafico() {
+            //OBTENERLOS DATOS
+            obtenerDatos();
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'pie',
+
+                // The data for our dataset
+                data: {
+                    labels: ['ATLÉTICO', 'BARCELONA', 'REAL MADRID'],
+                    datasets: [{
+                        label: 'COPAS DE EUROPA',
+                        backgroundColor: 'rgb(16, 26, 214)',
+                        //borderColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 255, 255)',
+                        data: [0, 5, 13]
+                    }]
+                },
+
+                // Configuration options go here
+                options: {}
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <canvas id="myChart"></canvas>
+    <iframe src="https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json"></iframe>
+</body>
+
+</html>

@@ -51,23 +51,23 @@
 
         <ion-content fullscreen>
             <ion-list>
-                <ion-radio-group value="grape">
+                <ion-radio-group id="radio" value="wifi">
                     <ion-list-header>
                         <ion-label>TIPO DE CONEXIÓN</ion-label>
                     </ion-list-header>
                     <ion-item>
                         <ion-label>WIFI</ion-label>
-                        <ion-radio slot="start" color="success" value="apple"></ion-radio>
+                        <ion-radio slot="start" color="success" value="wifi"></ion-radio>
                     </ion-item>
 
                     <ion-item>
                         <ion-label>4G/3G DATOS</ion-label>
-                        <ion-radio slot="start" color="tertiary" value="grape"></ion-radio>
+                        <ion-radio slot="start" color="tertiary" value="datos"></ion-radio>
                     </ion-item>
 
                     <ion-item>
                         <ion-label>SIN CONEXIÓN</ion-label>
-                        <ion-radio slot="start" color="danger" value="cherry"></ion-radio>
+                        <ion-radio slot="start" color="danger" value="sindatos"></ion-radio>
                     </ion-item>
                 </ion-radio-group>
             </ion-list>
@@ -78,22 +78,32 @@
     <script src="js/index.js"></script>
     <script>
         function checkConnection() {
+
+
             var networkState = navigator.connection.type;
 
-            var states = {};
-            states[Connection.UNKNOWN] = 'Unknown connection';
-            states[Connection.ETHERNET] = 'Ethernet connection';
-            states[Connection.WIFI] = 'WiFi connection';
-            states[Connection.CELL_2G] = 'Cell 2G connection';
-            states[Connection.CELL_3G] = 'Cell 3G connection';
-            states[Connection.CELL_4G] = 'Cell 4G connection';
-            states[Connection.CELL] = 'Cell generic connection';
-            states[Connection.NONE] = 'No network connection';
+         
 
-            alert('Connection type: ' + states[networkState]);
+            var states = {};
+            states[Connection.UNKNOWN] = 'sindatos';
+            states[Connection.ETHERNET] = 'wifi';
+            states[Connection.WIFI] = 'wifi';
+            states[Connection.CELL_2G] = 'datos';
+            states[Connection.CELL_3G] = 'datos';
+            states[Connection.CELL_4G] = 'datos';
+            states[Connection.CELL] = 'datos';
+            states[Connection.NONE] = 'sindatos';
+
+            document.getElementById("radio").value =  states[networkState];
+
         }
 
-        onload = checkConnection;
+        function comenzar() {
+            setInterval(checkConnection, 1000);
+
+        }
+
+        onload = comenzar;
 
     </script>
 </body>
