@@ -12,12 +12,76 @@
         //PUGLIN DESAHIBLITAR CORS NAVEGADOR  --> FUNCIONA, PERO HABRÍA QUE ETUDAIR COMO HACERLO EN CORDOVA
         //DESACARLO PREVIAMENTE  (Downlod manager -plugin-) Y CARGARLO DESDE LOCAL (Media File)
         //IFRAME JC
+        //
+        function obtenerLocalidades (datosjson)
+        {
+            let array_localidades = [];
+            //let contador = 0;
+
+                let fecha_actual = datosjson.data[0].fecha_informe;//"2021/01/19 10:32:00";
+                let fecha_nueva = false;
+                let contador = 0;
+                while (!fecha_nueva)
+                {
+                    if (datosjson.data[contador].fecha_informe == fecha_actual)
+                    {
+                        array_localidades.push(datosjson.data[contador].municipio_distrito);
+                        contador = contador +1;
+                    } else {
+                        fecha_nueva = true;
+                    }
+                } 
+                console.log ("hay " + array_localidades.length + " localidades");
+                console.log (array_localidades);
+                
+
+            return array_localidades;
+        }
+
+        function obtenerFechas (datosjson)
+        {
+            let listado_fechas = [];
+            let listado_fechas_unico = [];
+            //let fechas = [];
+            //const str = 'Mozilla';
+
+//console.log(str.substr(1, 2));
+// expected output: "oz"
+
+//console.log(str.substr(2));
+// expected output: "zilla"
+
+            //2020/11/10 10:27:00
+                listado_fechas = datosjson.data.map(elemento => elemento.fecha_informe.substr(0,10));//saco las fechas
+                console.log (listado_fechas);
+                console.log (listado_fechas.length);
+                listado_fechas_unico = [...new Set(listado_fechas)];
+                console.log (listado_fechas_unico.length);
+                console.log (listado_fechas_unico);
+
+
+            return listado_fechas_unico;
+        }
+
         function obtenerDatos ()
         {
             fetch("https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json")
             .then (response => response.json())//paso de json a objeto
-            .then (data => console.log(data));
-        }
+            .then (datosjson => {
+                console.log("datos covid cam ");
+                console.log(datosjson);
+                //console.log(datosjson.data[0].municipio_distrito);
+                let array_localidades = obtenerLocalidades (datosjson);
+                let array_fechas = obtenerFechas (datosjson);
+                //ojo porque NO ESTÁN COMPLETA LA INFO
+                //HAY LOCALIDAES QUE NO TIENE FECHA
+                //TODO 
+                    //1.- HACER BÚSUQEDAS POR LOCALIDAD-DISTRITO 
+                        //EJ ion-searchbar https://github.com/ionic-team/ionic-docs/blob/master/src/demos/api/searchbar/index.html
+                    //2.- HACER DESPLEGABLE FECHAS ION-SELECT EJ: PERROS
+        
+        });
+    }
         function dibujarGrafico() {
             //OBTENERLOS DATOS
             obtenerDatos();
@@ -47,7 +111,7 @@
 
 <body>
     <canvas id="myChart"></canvas>
-    <iframe src="https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json"></iframe>
+    <!--<iframe src="https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json"></iframe>-->
 </body>
 
 </html>
