@@ -93,15 +93,7 @@ console.log(pets.includes('cat'));
             return fechaDDMMAAAA;
         }
 
-        /**
-         * <ion-label>Numero</ion-label>
-            <ion-select placeholder="Selecciona una opción." id="numPerros">
-            <ion-select-option value="3">3</ion-select-option>
-            <ion-select-option value="6">6</ion-select-option>
-            <ion-select-option value="9">9</ion-select-option>
-            <ion-select-option value="12">12</ion-select-option>
-            </ion-select>
-         * */
+    
         function mostrarIonSearchBarLocalidades(array_localidades) {
             var elemento_lista_localidades = document.getElementById("listalocalidades");
             let item_localidad;
@@ -110,6 +102,8 @@ console.log(pets.includes('cat'));
 
                 item_localidad = document.createElement("ion-item");//creo elemento
                 item_localidad.innerHTML = localidad;//le meto la localidad
+                //item.style.display
+                item_localidad.style.display = 'none';
 
                 elemento_lista_localidades.appendChild(item_localidad);//añado al padre
             }
@@ -230,19 +224,31 @@ console.log(pets.includes('cat'));
         
 
         searchbar.addEventListener('ionInput', handleInput);
+        function ponerListaLocalidadesInvisible ()
+        {
+            listalocalidades.forEach(item =>item.style.display = 'none');
+        }
 
         function handleInput(event) {
             const query = event.target.value.toLowerCase();
             //const items = Array.from(document.querySelector('ion-list').children);
+            console.log ("query " + query);
+            //si query es vacia, hay que limipar la lista
+            if (query=='')
+            {
+                ponerListaLocalidadesInvisible();
+            } else {
             requestAnimationFrame(() => {
                 listalocalidades.forEach(item => {
                     //TODO VALORAR LA OPCIÓN DE JAIME 
                     const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;//la localidad tiene las letras introducidas?
+                    //const shouldShow = item.textContent.toLowerCase().startsWith(query);//la localidad tiene las letras introducidas?
                     item.style.display = shouldShow ? 'block' : 'none';//operador ternaria
                     //if shouldShow== true --> estilo del elmento es block_ que se vea
                     //si no, none, que no se vea
                 });
             });
+            }
         }
     </script>
 </body>
