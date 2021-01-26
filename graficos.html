@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
     <script>
         onload = dibujarGrafico;
+
+        let fecha_sel;
+        let localidad_sel;
         //PUGLIN DESAHIBLITAR CORS NAVEGADOR  --> FUNCIONA, PERO HABRÍA QUE ETUDAIR COMO HACERLO EN CORDOVA
         //DESACARLO PREVIAMENTE  (Downlod manager -plugin-) Y CARGARLO DESDE LOCAL (Media File)
         //IFRAME JC
@@ -104,16 +107,60 @@ console.log(pets.includes('cat'));
                 item_localidad.innerHTML = localidad;//le meto la localidad
                 //item.style.display
                 item_localidad.style.display = 'none';
+                item_localidad.addEventListener("click", localidadSeleccionada);
 
                 elemento_lista_localidades.appendChild(item_localidad);//añado al padre
             }
            
         }
 
+
+        function pintar (fecha, localidad)
+        {
+            console.log ("Dibujar " + fecha + " para " + localidad);
+            //TODO DIBUJAR LA GRÁFICA PARA LA LOCALIDAD SELECCIONADA
+            //DESDE 7 FECHAS HACIA ATRÁS DE LA SELECCIONADA
+        }
+
+        function localidadSeleccionada ()
+        {
+            console.log ("localidad_seleccionada = " + this.innerHTML);
+            localidad_sel = this.innerHTML;//obtengo la loclidad
+            ponerListaLocalidadesInvisible();
+            searchbar.value = this.innerHTML;
+
+            if (selectfechas.value == undefined) {
+                  //  alert("Selecciona una fecha.");
+            } else {
+                console.log("Fecha seleccionada = " + selectfechas.value);
+                fecha_sel = selectfechas.value;
+                pintar (fecha_sel, localidad_sel);
+            }
+
+
+
+        }
+
+        function fechaSeleccionada()
+        {
+            console.log ("cambio fechas");
+            fecha_sel = selectfechas.value;
+            console.log("Fecha seleccionada = " + selectfechas.value);
+
+            if (localidad_sel && fecha_sel)
+            {
+                pintar (fecha_sel, localidad_sel);
+            } else {
+                //alert("Selecciona una localidad");
+            }
+        }
+
+
         function mostrarIonSelectFechas(array_fechas) {
             var etiqueta_ion_select = document.getElementById("listaFecha");
             let fecha_formato_DDMMAAA;
             let etiqueta_fecha = null;
+            let primera_fecha;
 
             for (elemento_fecha of array_fechas) {
 
@@ -124,6 +171,8 @@ console.log(pets.includes('cat'));
                 etiqueta_fecha.setAttribute("value", elemento_fecha);
                 etiqueta_fecha.innerHTML = fecha_formato_DDMMAAA;
             }
+            //primera_fecha = formatFecha (array_fechas[0]);
+            etiqueta_ion_select.setAttribute('value', array_fechas[0]);
         }
 
         function obtenerFechas(datosjson) {
@@ -169,17 +218,17 @@ console.log(pets.includes('cat'));
             var ctx = document.getElementById('myChart').getContext('2d');
             var chart = new Chart(ctx, {
                 // The type of chart we want to create
-                type: 'pie',
+                type: 'line',
 
                 // The data for our dataset
                 data: {
-                    labels: ['ATLÉTICO', 'BARCELONA', 'REAL MADRID'],
+                    labels: ['ATLÉTICO', 'BARCELONA', 'REAL MADRID'],//7 fechas
                     datasets: [{
                         label: 'COPAS DE EUROPA',
                         backgroundColor: 'rgb(16, 26, 214)',
                         //borderColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 255, 255)',
-                        data: [0, 5, 13]
+                        data: [0, 5, 13]//la TIA a 14 días de ese municipio en esa fecha
                     }]
                 },
 
@@ -204,7 +253,7 @@ console.log(pets.includes('cat'));
         <ion-content fullscreen>
 
             <ion-item>
-                <ion-label>Fecha</ion-label>
+                <ion-label>Fecha de informe</ion-label>
                 <ion-select id="listaFecha">
 
                 </ion-select>
@@ -220,9 +269,11 @@ console.log(pets.includes('cat'));
     <!--<iframe src="https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json"></iframe>-->
 
     <script>
+        const selectfechas = document.getElementById('listaFecha');
+        selectfechas.addEventListener('ionChange' ,fechaSeleccionada);
         const searchbar = document.querySelector('ion-searchbar');
         
-
+        
         searchbar.addEventListener('ionInput', handleInput);
         function ponerListaLocalidadesInvisible ()
         {
