@@ -11,10 +11,11 @@
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
     <script>
-        onload = dibujarGrafico;
+        onload = obtenerDatos;
 
         let fecha_sel;
         let localidad_sel;
+        let datos_cam;
         //PUGLIN DESAHIBLITAR CORS NAVEGADOR  --> FUNCIONA, PERO HABRÍA QUE ETUDAIR COMO HACERLO EN CORDOVA
         //DESACARLO PREVIAMENTE  (Downlod manager -plugin-) Y CARGARLO DESDE LOCAL (Media File)
         //IFRAME JC
@@ -65,6 +66,7 @@ console.log(pets.includes('cat'));
             let listado_fechas = [];//lo que tenemos que devolver
             let fecha_en_curso;
             let fecha_anterior = '0';
+            
 
             for (let i = 0; i < datosjson.data.length; i++) {
                 fecha_en_curso = datosjson.data[i].fecha_informe.substr(0, 10);
@@ -114,12 +116,51 @@ console.log(pets.includes('cat'));
            
         }
 
+        function obtenerPosicionFechaBuscada (datos_localidad, fecha_buscada)
+        {
+            let posicion = 0;
+            let encontrado = false;
+            let fecha_actual;
+            //caso especial que no esté esa fecha en los datos de esa localidad
+
+                while (!encontrado)
+                {
+                    fecha_actual = datos_localidad[posicion].fecha_informe.substr(0,10);
+                    if (fecha_actual == fecha_buscada)
+                    {
+                        encontrado = true;
+                    }
+                    else {
+                        posicion = posicion+1;
+                    }
+                }
+                console.log ("encontrado en la pos " + posicion);
+
+            return posicion;
+        }
 
         function pintar (fecha, localidad)
         {
             console.log ("Dibujar " + fecha + " para " + localidad);
-            //TODO DIBUJAR LA GRÁFICA PARA LA LOCALIDAD SELECCIONADA
-            //DESDE 7 FECHAS HACIA ATRÁS DE LA SELECCIONADA
+            //me quedo con la localidad seleccionada
+            let datos_localidad = datos_cam.data.filter(item => item.municipio_distrito==localidad);
+            console.log (datos_localidad);
+            //busco la posición de la fecha seleccionada por el usuario --> OJO CASO ESPECIAL q puede no estar
+            let posicion = obtenerPosicionFechaBuscada (datos_localidad, fecha);
+            //Una vez encontrada esa posición, corto el array desde esa posición, a las 7 siguientes
+            //me quedo en realidad con los informes de 7 fechas - un array de 7
+            let datos_localidad_ultimos7 =  datos_localidad.slice(posicion, posicion+7);
+            console.log (datos_localidad_ultimos7);
+            //del array de 7 fechaas, saco 2, uno para el eje X que son las fechas
+            //otro array con la TIA 14 ddías, que son el eje y
+            let arrayFechas = datos_localidad_ultimos7.map(elemento => elemento.fecha_informe.substr(0, 10));
+            let arrayTia = datos_localidad_ultimos7.map(elemento => elemento.tasa_incidencia_acumulada_ultimos_14dias);
+            //Y lo mando dibujar
+            //me he dado cuenta que para que aparezca de izquira a derecha, hay que dar la vuelta a los arrays
+            dibujarGrafico(arrayFechas.reverse(), arrayTia.reverse());//les damos la vuelta
+            console.log ("array fechas = " + arrayFechas);
+            console.log ("arrayTia = " + arrayTia);
+
         }
 
         function localidadSeleccionada ()
@@ -196,6 +237,7 @@ console.log(pets.includes('cat'));
                 .then(datosjson => {
                     console.log("datos covid cam ");
                     console.log(datosjson);
+                    datos_cam = datosjson;
                     //console.log(datosjson.data[0].municipio_distrito);
                     let array_localidades = obtenerLocalidades(datosjson);
                     let array_fechas = obtenerFechas(datosjson);
@@ -203,18 +245,13 @@ console.log(pets.includes('cat'));
                     mostrarIonSearchBarLocalidades(array_localidades);
                     mostrarIonSelectFechas(array_fechas);
                     listalocalidades = Array.from(document.querySelector('ion-list').children);
-                    //ojo porque NO ESTÁN COMPLETA LA INFO
-                    //HAY LOCALIDAES QUE NO TIENE FECHA
-                    //TODO 
-                    //1.- HACER BÚSUQEDAS POR LOCALIDAD-DISTRITO 
-                    //EJ ion-searchbar https://github.com/ionic-team/ionic-docs/blob/master/src/demos/api/searchbar/index.html
-                    //2.- HACER DESPLEGABLE FECHAS ION-SELECT EJ: PERROS
+                    
 
                 });
         }
-        function dibujarGrafico() {
+        function dibujarGrafico(ejexFechas, ejeyTIA) {
             //OBTENERLOS DATOS
-            obtenerDatos();
+            
             var ctx = document.getElementById('myChart').getContext('2d');
             var chart = new Chart(ctx, {
                 // The type of chart we want to create
@@ -222,13 +259,13 @@ console.log(pets.includes('cat'));
 
                 // The data for our dataset
                 data: {
-                    labels: ['ATLÉTICO', 'BARCELONA', 'REAL MADRID'],//7 fechas
+                    labels: ejexFechas,//['ATLÉTICO', 'BARCELONA', 'REAL MADRID'],//7 fechas
                     datasets: [{
-                        label: 'COPAS DE EUROPA',
+                        label: 'TIA 14 días',
                         backgroundColor: 'rgb(16, 26, 214)',
                         //borderColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 255, 255)',
-                        data: [0, 5, 13]//la TIA a 14 días de ese municipio en esa fecha
+                        data: ejeyTIA//[0, 5, 13]//la TIA a 14 días de ese municipio en esa fecha
                     }]
                 },
 
