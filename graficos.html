@@ -7,6 +7,9 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
     <script>
         onload = dibujarGrafico;
         //PUGLIN DESAHIBLITAR CORS NAVEGADOR  --> FUNCIONA, PERO HABRÍA QUE ETUDAIR COMO HACERLO EN CORDOVA
@@ -38,20 +41,84 @@
             return array_localidades;
         }
 
+        /**
+         * 
+         * const pets = ['cat', 'dog', 'bat'];
+
+console.log(pets.includes('cat'));
+//precondiciones
+
+        suponemos que la fecha viene en orden
+        datosjson es distinto null
+        la hora es la misma
+
+//postcondiciones
+
+//funcionalidad
+
+//entradas
+
+//salidas
+         * */
+        function obtenerFechas2 (datosjson)
+        {
+            let listado_fechas = [];//lo que tenemos que devolver
+            let fecha_en_curso;
+            let fecha_anterior= '0';
+
+                for (let i = 0; i<datosjson.data.length;i++)
+                {
+                    fecha_en_curso = datosjson.data[i].fecha_informe.substr(0,10);
+                    //suponemos que la fecha viene en orden
+                    //? tengo que insertar siempre la fecha
+                    //si la fecha_en_curso es distinta de la fecha anterior
+                    if (fecha_en_curso!=fecha_anterior)
+                    {
+                        listado_fechas.push(fecha_en_curso);
+                        fecha_anterior = fecha_en_curso;
+                    }
+                    
+                    //si la fecha_en_curso, ya está en el array, No la meto
+                        //si no, sí la meto
+                    if (!listado_fechas.includes(fecha_en_curso))
+                    {
+                        listado_fechas.push(fecha_en_curso);
+                    }
+                    
+                }
+
+
+            return listado_fechas;
+        }
+
+        /**
+         * <ion-label>Numero</ion-label>
+            <ion-select placeholder="Selecciona una opción." id="numPerros">
+            <ion-select-option value="3">3</ion-select-option>
+            <ion-select-option value="6">6</ion-select-option>
+            <ion-select-option value="9">9</ion-select-option>
+            <ion-select-option value="12">12</ion-select-option>
+            </ion-select>
+         * */
+        function  mostrarIonSearchBarLocalidades(array_localidades)
+        {
+        }
+
+        function mostrarIonSelectFechas(array_fechas) {
+            var etiqueta_ion_select = document.getElementById("listaFecha");
+            for (elemento_fecha of array_fechas) {
+                etiqueta_fecha= document.createElement("ion-select-option");
+                etiqueta_ion_select.appendChild(etiqueta_fecha);
+                etiqueta_fecha.setAttribute("value", elemento_fecha);
+                etiqueta_fecha.innerHTML = elemento_fecha;
+            }
+        }
+
         function obtenerFechas (datosjson)
         {
             let listado_fechas = [];
             let listado_fechas_unico = [];
-            //let fechas = [];
-            //const str = 'Mozilla';
-
-//console.log(str.substr(1, 2));
-// expected output: "oz"
-
-//console.log(str.substr(2));
-// expected output: "zilla"
-
-            //2020/11/10 10:27:00
+            
                 listado_fechas = datosjson.data.map(elemento => elemento.fecha_informe.substr(0,10));//saco las fechas
                 console.log (listado_fechas);
                 console.log (listado_fechas.length);
@@ -73,6 +140,10 @@
                 //console.log(datosjson.data[0].municipio_distrito);
                 let array_localidades = obtenerLocalidades (datosjson);
                 let array_fechas = obtenerFechas (datosjson);
+               // let array_fechas = obtenerFechas2 (datosjson);//versión alternativa
+               mostrarIonSearchBarLocalidades(array_localidades);
+               mostrarIonSelectFechas(array_fechas);
+
                 //ojo porque NO ESTÁN COMPLETA LA INFO
                 //HAY LOCALIDAES QUE NO TIENE FECHA
                 //TODO 
@@ -110,7 +181,25 @@
 </head>
 
 <body>
-    <canvas id="myChart"></canvas>
+    
+    <ion-app>
+        <ion-header translucent>
+            <ion-toolbar>
+                <ion-title>Seleccione fecha</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content fullscreen>
+            <ion-list>
+                <ion-item>
+                    <ion-label>Fecha</ion-label>
+                    <ion-select id="listaFecha">
+                 
+                    </ion-select>
+                </ion-item>
+            </ion-list>
+            <canvas id="myChart"></canvas>
+        </ion-content>
+    </ion-app>
     <!--<iframe src="https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json"></iframe>-->
 </body>
 
