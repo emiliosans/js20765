@@ -13,6 +13,7 @@
     <script>
         onload = obtenerDatos;
 
+        const NUM_FECHAS_EJEX = 7;
         let fecha_sel;
         let localidad_sel;
         let datos_cam;
@@ -116,6 +117,10 @@ console.log(pets.includes('cat'));
            
         }
 
+        //si la fecha buscada no existe, se toma la fecha última
+        //posición 0
+        //JUAN CARLOS OFRECE MEJORAS mejora --> tomamos la fecha
+        //anterior a la buscada en caso de que ésta no esté
         function obtenerPosicionFechaBuscada (datos_localidad, fecha_buscada)
         {
             let posicion = 0;
@@ -123,10 +128,10 @@ console.log(pets.includes('cat'));
             let fecha_actual;
             //caso especial que no esté esa fecha en los datos de esa localidad
 
-                while (!encontrado)
+                while ((!encontrado)/*&&(posicion<datos_localidad.length)*/)
                 {
                     fecha_actual = datos_localidad[posicion].fecha_informe.substr(0,10);
-                    if (fecha_actual == fecha_buscada)
+                    if (fecha_actual <= fecha_buscada)
                     {
                         encontrado = true;
                     }
@@ -135,6 +140,10 @@ console.log(pets.includes('cat'));
                     }
                 }
                 console.log ("encontrado en la pos " + posicion);
+               /* if (!encontrado)
+                {
+                    posicion= 0;
+                }*/
 
             return posicion;
         }
@@ -149,15 +158,16 @@ console.log(pets.includes('cat'));
             let posicion = obtenerPosicionFechaBuscada (datos_localidad, fecha);
             //Una vez encontrada esa posición, corto el array desde esa posición, a las 7 siguientes
             //me quedo en realidad con los informes de 7 fechas - un array de 7
-            let datos_localidad_ultimos7 =  datos_localidad.slice(posicion, posicion+7);
+            let datos_localidad_ultimos7 =  datos_localidad.slice(posicion, posicion+NUM_FECHAS_EJEX);
             console.log (datos_localidad_ultimos7);
             //del array de 7 fechaas, saco 2, uno para el eje X que son las fechas
             //otro array con la TIA 14 ddías, que son el eje y
-            let arrayFechas = datos_localidad_ultimos7.map(elemento => elemento.fecha_informe.substr(0, 10));
+            let arrayFechas = datos_localidad_ultimos7.map(elemento => formatFecha(elemento.fecha_informe.substr(0, 10)));
             let arrayTia = datos_localidad_ultimos7.map(elemento => elemento.tasa_incidencia_acumulada_ultimos_14dias);
             //Y lo mando dibujar
             //me he dado cuenta que para que aparezca de izquira a derecha, hay que dar la vuelta a los arrays
             dibujarGrafico(arrayFechas.reverse(), arrayTia.reverse());//les damos la vuelta
+            //dibujarGrafico(arrayFechas, arrayTia);//les damos la vuelta
             console.log ("array fechas = " + arrayFechas);
             console.log ("arrayTia = " + arrayTia);
 
@@ -262,9 +272,10 @@ console.log(pets.includes('cat'));
                     labels: ejexFechas,//['ATLÉTICO', 'BARCELONA', 'REAL MADRID'],//7 fechas
                     datasets: [{
                         label: 'TIA 14 días',
-                        backgroundColor: 'rgb(16, 26, 214)',
+                        backgroundColor: 'rgb(235, 68, 90)',//'tomato',//'rgb(16, 26, 214)',
                         //borderColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 255, 255)',
+                        //borderColor: 'rgb(0, 0, 0)',
                         data: ejeyTIA//[0, 5, 13]//la TIA a 14 días de ese municipio en esa fecha
                     }]
                 },
