@@ -47,17 +47,72 @@
               width:100%;
               height:100vh;
           }
+        /*  ion-footer {
+            background-color: rgb(235, 68, 90);
+            //1 problemas con botones: más lenta la carga de mapas
+            //2 no cabe en la descripción del botón
+
+        }*/
         </style>
         <script type="module">
           import { menuController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
           window.menuController = menuController;
         </script>
+         <!--<script>
+          const URI_RESTRICCIONES = "https://comunidadmadrid.maps.arcgis.com/apps/webappviewer/index.html?id=4bc4b611915740cc99fdc1a10954b043";
+          const URI_MUNICIPIOS = "https://comunidadmadrid.maps.arcgis.com/apps/PublicInformation/index.html?appid=cdfb61b3eb3a49c2b990b4fdb41dfcfe";
+          const URI_ZBS = "https://comunidadmadrid.maps.arcgis.com/apps/PublicInformation/index.html?appid=7db220dc2e0a40b4a928df661a89762e";
+      
+      
+          let btnRestric, btnMunic, btnZBS;
+      
+          function comienzo() {
+            btnRestric = document.getElementById("btnRestric");
+            btnMunic = document.getElementById("btnMunic");
+            btnZBS = document.getElementById("btnZBS");
+            
+      
+            cambiarMapa("R")
+          }
+      
+          function cambiarMapa(mapa) {
+            console.log("Cambio de mapa");
+           
+            switch (mapa) {
+              case "R":
+                url = URI_RESTRICCIONES;
+      
+                btnRestric.setAttribute("strong", "true");
+                btnMunic.setAttribute("strong", "false");
+                btnZBS.setAttribute("strong", "false");
+                break;
+              case "M":
+                url = URI_MUNICIPIOS;
+      
+                btnRestric.setAttribute("strong", "false");
+                btnMunic.setAttribute("strong", "true");
+                btnZBS.setAttribute("strong", "false");
+                break;
+              default:
+                url = URI_ZBS;
+      
+                btnRestric.setAttribute("strong", "false");
+                btnMunic.setAttribute("strong", "false");
+                btnZBS.setAttribute("strong", "true");
+              }
+      
+            document.getElementById("contenido").src = url;
+          }
+      
+          window.addEventListener("load", comienzo);
+      
+        </script>-->
     </head>
     <body>
         <ion-app>
             <ion-menu side="start" content-id="main-content">
               <ion-header>
-                <ion-toolbar translucent color="danger">
+                <ion-toolbar color="medium">
                   <ion-title>Menu</ion-title>
                 </ion-toolbar>
               </ion-header>
@@ -73,20 +128,15 @@
                   </ion-item>
                   <ion-item>
                     <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
-                    <!--<ion-icon name="heart" slot="start"></ion-icon>-->
                     <ion-label onclick="cambiaPagina('estadisticas.html')">Estadísticas</ion-label>
                   </ion-item>
-                  <!--<ion-item>
-                    <ion-icon name="bar-chart-outline" slot="start"></ion-icon>
-                    <ion-label>Estadísiticas localidades</ion-label>
-                  </ion-item>-->
                   <ion-item>
                     <ion-icon name="git-compare-outline" slot="start"></ion-icon>
                     <ion-label>Comparar zonas</ion-label>
                   </ion-item>
                   <ion-item>
                     <ion-icon name="reader-outline" slot="start"></ion-icon>
-                    <ion-label>Datos Contagio España</ion-label>
+                    <ion-label>Contagios España</ion-label>
                   </ion-item>
                   <ion-item>
                     <ion-icon name="newspaper-outline" slot="start"></ion-icon>
@@ -96,61 +146,48 @@
                     <ion-icon name="thermometer-outline" slot="start"></ion-icon>
                     <ion-label>Auto Test</ion-label>
                   </ion-item>
-                  <ion-item>
+                  <!--<ion-item>
                     <ion-icon name="medkit-outline" slot="start"></ion-icon>
                     <ion-label>Datos Hospitalización</ion-label>
-                  </ion-item>
+                  </ion-item>-->
                   <ion-item>
                     <ion-icon name="eyedrop-outline" slot="start"></ion-icon>
                     <ion-label>Datos Vacunación</ion-label>
                   </ion-item>
                   <ion-item>
                     <ion-icon name="people-outline" slot="start"></ion-icon>
-                    <ion-label>Créditos</ion-label>
+                    <ion-label onclick="cambiaPagina('creditos.html')">Créditos</ion-label>
                   </ion-item>
-                  <!--OPCION SUBMENÚ-->
-                  <!--<ion-item>
-                    <ion-list>
-                      <ion-item>
-                        <ion-icon name="people-outline" slot="start"></ion-icon>
-                        <ion-label>CRED 1</ion-label>
-                      </ion-item>
-                      <ion-item>
-                        <ion-icon name="people-outline" slot="start"></ion-icon>
-                        <ion-label>CRED 2</ion-label>
-                      </ion-item>
-                    </ion-list>
-                  </ion-item>-->
+                  
                 </ion-list>
               </ion-content>
             </ion-menu>
         
             <div class="ion-page" id="main-content">
               <ion-header>
-                <ion-toolbar>
+                <ion-toolbar color="danger">
                   <ion-buttons slot="start">
-                    <ion-menu-button></ion-menu-button> <!--hamburguesa-->
+                    <ion-menu-button></ion-menu-button> 
                   </ion-buttons>
                   <ion-title>Covid CAM</ion-title>
                 </ion-toolbar>
               </ion-header>
               <ion-content class="ion-padding">
-                <!--<ion-button expand="block" onclick="openMenu()">Open Menu</ion-button>-->
-                <!--Aquí irían los mapas-->
+               
                 <ion-tabs>
                     <ion-tab tab="tab-mapa-restricciones">
                       <ion-nav>
-                          <iframe class="iframe-mapa" src="https://comunidadmadrid.maps.arcgis.com/apps/webappviewer/index.html?id=4bc4b611915740cc99fdc1a10954b043"></iframe>
+                          <iframe allow="geolocation" class="iframe-mapa" src="https://comunidadmadrid.maps.arcgis.com/apps/webappviewer/index.html?id=4bc4b611915740cc99fdc1a10954b043"></iframe>
                       </ion-nav> 
                     </ion-tab>
                     <ion-tab tab="tab-mapa-incidencia-municipios">
                       <ion-nav>
-                        <iframe class="iframe-mapa" src="https://comunidadmadrid.maps.arcgis.com/apps/PublicInformation/index.html?appid=cdfb61b3eb3a49c2b990b4fdb41dfcfe"></iframe>
+                        <iframe allow="geolocation" class="iframe-mapa" src="https://comunidadmadrid.maps.arcgis.com/apps/PublicInformation/index.html?appid=cdfb61b3eb3a49c2b990b4fdb41dfcfe"></iframe>
                       </ion-nav>
                     </ion-tab>
                     <ion-tab tab="tab-mapa-incidencia-zbs">
                       <ion-nav> 
-                          <iframe class="iframe-mapa" src="https://comunidadmadrid.maps.arcgis.com/apps/PublicInformation/index.html?appid=7db220dc2e0a40b4a928df661a89762e"></iframe>
+                          <iframe allow="geolocation" class="iframe-mapa" src="https://comunidadmadrid.maps.arcgis.com/apps/PublicInformation/index.html?appid=7db220dc2e0a40b4a928df661a89762e"></iframe>
                         </ion-nav>
                     </ion-tab>
                     <ion-tab-bar slot="bottom" color="danger">
@@ -160,26 +197,76 @@
                       </ion-tab-button>
                       <ion-tab-button tab="tab-mapa-incidencia-municipios">
                         <ion-icon name="business-outline"></ion-icon>
-                        <ion-label>TIA municipio</ion-label>
+                        <ion-label>Municipio</ion-label>
                       </ion-tab-button>
                   
                       <ion-tab-button tab="tab-mapa-incidencia-zbs">
                         <ion-icon name="fitness-outline"></ion-icon>
-                        <ion-label>TIA ZBS</ion-label>
+                        <ion-label>ZBS</ion-label>
                       </ion-tab-button>
                     </ion-tab-bar>
                 </ion-tabs>
               </ion-content>
             </div>
+           <!-- <div class="ion-page" id="main-content">
+              <ion-header>
+                <ion-toolbar>
+                  <ion-buttons slot="start">
+                    <ion-menu-button></ion-menu-button> 
+                  </ion-buttons>
+                  <ion-title>Covid CAM</ion-title>
+                </ion-toolbar>
+              </ion-header>
+             
+              <ion-content>
+                <iframe allow="geolocation" id="contenido" class="iframe-mapa" src=""></iframe>
+              </ion-content>
+             
+              <ion-footer>
+                  <ion-grid>
+                      <ion-row>
+                          <ion-col size="4" class="ion-no-margin ion-no-padding">
+                              <ion-button id="btnRestric" onclick="cambiarMapa('R')" color="danger" expand="full">
+                                  <ion-icon slot="start" name="hand-right-outline"></ion-icon>
+                                  Restricciones
+                              </ion-button>
+                          </ion-col>
+                          <ion-col size="4" class="ion-no-margin ion-no-padding">
+                              <ion-button id="btnMunic" onclick="cambiarMapa('M')" color="danger" expand="full">
+                                  <ion-icon slot="start" name="business-outline"></ion-icon>
+                                  Municipio
+                              </ion-button>
+                          </ion-col>
+                          <ion-col size="4" class="ion-no-margin ion-no-padding">
+                              <ion-button id="btnZBS" onclick="cambiarMapa('Z')" color="danger" expand="full">
+                                <ion-icon slot="start" name="fitness-outline"></ion-icon>
+                                ZBS
+                              </ion-button>
+                        </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-footer>
+            </div>-->
           </ion-app>
         
           <script>
-            async function openMenu() {
-              await menuController.open();
-            }
+            
             function cambiaPagina(pagina)
             {
-              location.href = pagina;
+              
+                let ruta_actual = location.href;
+                let pag_actual = ruta_actual.substr(ruta_actual.lastIndexOf('/') + 1);
+              
+                if (pag_actual.localeCompare(pagina)==0)//
+                {
+                  
+                  menuController.close();
+                } else
+                {
+                  location.href = pagina;
+                }
+            
+              
             }
           </script>
         <script src="cordova.js"></script>

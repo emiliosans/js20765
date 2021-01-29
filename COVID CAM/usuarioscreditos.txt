@@ -1,0 +1,115 @@
+// DATOS JAME MUÑOZ
+¨{
+"nombre":"Jaime Muñoz",
+"foto":"https://avatars.githubusercontent.com/u/69531470?s=460&u=01afb9a4f55bb1383129fbbb77ddb66918930485&v=4",
+"Linkedin:"https://www.linkedin.com/in/jaime-muñoz-muñoz-84086811",
+"github":"https://github.com/Jaime-cpu"
+}
+//DATOS OSCAR IBEAS
+{
+"nombre":"Oscar Ibeas",
+"foto": "https://avatars.githubusercontent.com/u/67690278?s=460&u=70f261df94a6d4198aab858b17181d444febda9f&v=4",
+"linkedin":"https://www.linkedin.com/in/oscaribeas/",
+"github": "https://github.com/oibeas"
+}
+//DATOS Pilar
+{
+"nombre":"María del Pilar Ruiz",
+"linkedin":"www.linkedin.com/in/maría-del-pilar-ruiz-frías-a75518a4/",
+"github": "https://github.com/fitipili"
+}
+
+//DATOS Jonatan Gomez
+{
+"nombre":"Jonatan Gomez",
+"foto": "https://avatars.githubusercontent.com/u/38595532?s=460&u=9137f2e0ae0c93336c35791ffc38e1452953b84d&v=4",
+"linkedin":"https://www.linkedin.com/in/jonatan-gomez-martinez-807176150/",
+"github": "https://github.com/Pistachu"
+} 
+//DATOS IGNACIO GIL TORRES
+{
+"nombre":"Ignacio Gil",
+"foto":"https://image.posterlounge.es/img/products/680000/677165/677165_poster_l.jpg",
+"linkedin":"https://www.linkedin.com/in/ignacio-gil-torres-a83b361b9/",
+"github":"https://github.com/giltorresignacio"
+}
+"nombre":"Jaime Muñoz",
+"foto":
+"Linkedin": "https://es.linkedin.com/public-profile/in/jaime-mu%C3%B1oz-mu%C3%B1oz-84086811?challengeId=AQH8mVw8U2BJ_gAAAXdFSZpG0ACeyOx5tg_wMZjtcsf--siq7Olgj87i7oN9Ar1FNfd1Tc-webJQEbio1iv9FMouOEoQKnkCug&submissionId=ef335f45-fe2c-5e16-9af9-899e1b81fd33",
+"github": 
+
+// DATOS Ádal
+{
+"nombre":"Adalberto Martín",
+"foto": "https://i.scdn.co/image/ab6775700000ee8517c354ae4724a87019440e63",
+"linkedin":"https://www.linkedin.com/in/amlinkedin/",
+"github": "https://github.com/migitgetafe"
+} 
+//DATOS JUAN ANTONIO ORTEGA
+{
+"nombre":"Juan Antonio Ortega Budia",
+"foto": "https://avatars.githubusercontent.com/u/75325369?s=460&u=887635d4c9bccad52d9f6069531d4b90dbd4851c&v=4",
+"linkedin":"https://www.linkedin.com/in/juanantoniobudia/",
+"github": "https://github.com/juanantoniobudia"
+}
+
+// Datos Carlos
+{
+"nombre”:”Carlos Rascon Garcia",
+"foto": "" //me falta subirla
+"linkedin": "https://www.linkedin.com/in/carlos-rasc%C3%B3n-garcia/"
+"linkedin": "https://www.linkedin.com/in/carlosnewmusic/"
+"github": "https://github.com/carlosnewmusic"
+"proyecto": "https://t.me/linuxSegurInteresInformatica"
+"proyecto": "https://edw.radio.es"
+} 
+
+//datos Héctor Guillamón
+{
+"nombre":"Héctor Guillamón Hidalgo",
+"foto": "https://avatars.githubusercontent.com/u/73254868?s=460&v=4",
+"linkedin":"https://www.linkedin.com/in/hguillamon/",
+"github": "https://github.com/heguihi87"
+} 
+
+//Datos Olga Gatalskaya
+{
+"nombre": "Olga Gatalskaya",
+"foto": "https://avatars.githubusercontent.com/u/56432315?s=400&u=65fbb79becfe7c3d6504592a7d9300a6f22d929a&v=4",
+"linkedin":"https://www.linkedin.com/in/volhahatalskaya/",
+"github": "https://github.com/OlgaGatalskaya"
+}
+
+// Datos Ana Pérez
+{
+"nombre": "Ana Pérez Carrera",
+"foto": "https://avatars.githubusercontent.com/u/16253709?s=400&v=4",
+"linkedin": "www.linkedin.com/in/ana-pérez-carrera-a868aa113"
+"github": "https://github.com/AnaPC-20"
+}
+
+
+//Datos Ernesto González
+
+{
+"nombre":"Ernesto González Castro",
+"foto": "https://github.com/ernesto-star.png",
+"linkedin":"https://www.linkedin.com/in/ernesto-gonzález-castro-00818b183/",
+"github": "https://github.com/ernesto-star"
+} 
+
+// DATOS Mar
+{
+"nombre":"Mar Macias",
+"foto": 
+"linkedin":"https://www.linkedin.com/in/mar-macias-0a54a260/",
+"github": "https://github.com/marm31"
+} 
+
+// DATOS Emilio Sánchez
+{
+"nombre”:”Emilio Sánchez",
+"foto": "https://avatars.githubusercontent.com/u/49201043?s=460&u=cb816bf46d408455c1dee1a6842d8375a8b79a5a&v=4"
+"linkedin":
+"github": "https://github.com/emiliosans"
+} 
