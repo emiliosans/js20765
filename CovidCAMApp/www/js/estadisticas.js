@@ -1,83 +1,38 @@
 onload = obtenerDatos;
 
+const URL_DATOS_JSON_ZBS = "https://datos.comunidad.madrid/catalogo/dataset/b3d55e40-8263-4c0b-827d-2bb23b5e7bab/resource/907a2df0-2334-4ca7-aed6-0fa199c893ad/download/covid19_tia_zonas_basicas_salud_s.json";
+const URL_DATOS_JSON_LOCALIDADES = "https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json";
 const NUM_FECHAS_EJEX = 7;
 let fecha_sel;
-let localidad_sel;
-let datos_cam;
-//PUGLIN DESAHIBLITAR CORS NAVEGADOR  --> FUNCIONA, PERO HABRÍA QUE ETUDAIR COMO HACERLO EN CORDOVA
-//DESACARLO PREVIAMENTE  (Downlod manager -plugin-) Y CARGARLO DESDE LOCAL (Media File)
-//IFRAME JC
-//
-//TODO REVISAR NO PINTA FECHA Y LOCALIDAD SELOSS.
-let listalocalidades = null;
-function obtenerLocalidades(datosjson) {
-    let array_localidades = [];
-    //let contador = 0;
+let zona_sel;//esto representa la ZBS o distrito/locaidad seleccionada según tab
+let datos_cam;//los datos de la CAM, bien sean los de zbs o municipio seǵun tab
+let tabzbs=false;
+let selectfechas;
+let searchbar;
+
+let listazonas = null;
+function obtenerZonas(datosjson) {
+    let array_zonas = [];
+    let zona;
+
 
     let fecha_actual = datosjson.data[0].fecha_informe;//"2021/01/19 10:32:00";
     let fecha_nueva = false;
     let contador = 0;
     while (!fecha_nueva) {
         if (datosjson.data[contador].fecha_informe == fecha_actual) {
-            array_localidades.push(datosjson.data[contador].municipio_distrito);
+            zona = tabzbs ? datosjson.data[contador].zona_basica_salud : datosjson.data[contador].municipio_distrito
+            array_zonas.push(zona);
             contador = contador + 1;
         } else {
             fecha_nueva = true;
         }
     }
-    // alert("hay " + array_localidades.length + " localidades");
-    // alert(array_localidades);
+    
 
-
-    return array_localidades;
+    return array_zonas;
 }
 
-/**
- * 
- * const pets = ['cat', 'dog', 'bat'];
-
-console.log(pets.includes('cat'));
-//precondiciones
-
-suponemos que la fecha viene en orden
-datosjson es distinto null
-la hora es la misma
-
-//postcondiciones
-
-//funcionalidad
-
-//entradas
-
-//salidas
- * */
-function obtenerFechas2(datosjson) {
-    let listado_fechas = [];//lo que tenemos que devolver
-    let fecha_en_curso;
-    let fecha_anterior = '0';
-
-
-    for (let i = 0; i < datosjson.data.length; i++) {
-        fecha_en_curso = datosjson.data[i].fecha_informe.substr(0, 10);
-        //suponemos que la fecha viene en orden
-        //? tengo que insertar siempre la fecha
-        //si la fecha_en_curso es distinta de la fecha anterior
-        if (fecha_en_curso != fecha_anterior) {
-            listado_fechas.push(fecha_en_curso);
-            fecha_anterior = fecha_en_curso;
-        }
-
-        //si la fecha_en_curso, ya está en el array, No la meto
-        //si no, sí la meto
-        if (!listado_fechas.includes(fecha_en_curso)) {
-            listado_fechas.push(fecha_en_curso);
-        }
-
-    }
-
-
-    return listado_fechas;
-}
 
 function formatFecha(fecha) {
     let fechaDDMMAAAA;
@@ -88,27 +43,23 @@ function formatFecha(fecha) {
 }
 
 
-function mostrarIonSearchBarLocalidades(array_localidades) {
-    var elemento_lista_localidades = document.getElementById("listalocalidades");
+function mostrarIonSearchBarZonas(array_localidades) {
+    var elemento_lista_localidades = tabzbs ? document.getElementById("listazbs") : document.getElementById("listalocalidades");
     let item_localidad;
 
     for (localidad of array_localidades) {
 
         item_localidad = document.createElement("ion-item");//creo elemento
         item_localidad.innerHTML = localidad;//le meto la localidad
-        //item.style.display
         item_localidad.style.display = 'none';
-        item_localidad.addEventListener("click", localidadSeleccionada);
+        item_localidad.addEventListener("click", zonaSeleccionada);
 
         elemento_lista_localidades.appendChild(item_localidad);//añado al padre
     }
 
 }
 
-//si la fecha buscada no existe, se toma la fecha última
-//posición 0
-//JUAN CARLOS OFRECE MEJORAS mejora --> tomamos la fecha
-//anterior a la buscada en caso de que ésta no esté
+
 function obtenerPosicionFechaBuscada(datos_localidad, fecha_buscada) {
     let posicion = 0;
     let encontrado = false;
@@ -125,29 +76,25 @@ function obtenerPosicionFechaBuscada(datos_localidad, fecha_buscada) {
         }
     }
     console.log("encontrado en la pos " + posicion);
-    /* if (!encontrado)
-     {
-         posicion= 0;
-     }*/
-
+ 
     return posicion;
 }
 
-function pintar(fecha, localidad) {
-    //alert("PINTAR " + fecha + " para " + localidad);
+function pintar(fecha, zona) {
+    
     //me quedo con la localidad seleccionada
-    let datos_localidad = datos_cam.data.filter(item => item.municipio_distrito == localidad);
-    console.log(datos_localidad);
+    let datos_zonas = tabzbs ? datos_cam.data.filter(item => item.zona_basica_salud == zona) : datos_cam.data.filter(item => item.municipio_distrito == zona);
+    console.log(datos_zonas);
     //busco la posición de la fecha seleccionada por el usuario --> OJO CASO ESPECIAL q puede no estar
-    let posicion = obtenerPosicionFechaBuscada(datos_localidad, fecha);
+    let posicion = obtenerPosicionFechaBuscada(datos_zonas, fecha);
     //Una vez encontrada esa posición, corto el array desde esa posición, a las 7 siguientes
     //me quedo en realidad con los informes de 7 fechas - un array de 7
-    let datos_localidad_ultimos7 = datos_localidad.slice(posicion, posicion + NUM_FECHAS_EJEX);
-    console.log(datos_localidad_ultimos7);
+    let datos_zona_ultimos7 = datos_zonas.slice(posicion, posicion + NUM_FECHAS_EJEX);
+    console.log(datos_zona_ultimos7);
     //del array de 7 fechaas, saco 2, uno para el eje X que son las fechas
     //otro array con la TIA 14 ddías, que son el eje y
-    let arrayFechas = datos_localidad_ultimos7.map(elemento => formatFecha(elemento.fecha_informe.substr(0, 10)));
-    let arrayTia = datos_localidad_ultimos7.map(elemento => elemento.tasa_incidencia_acumulada_ultimos_14dias);
+    let arrayFechas = datos_zona_ultimos7.map(elemento => formatFecha(elemento.fecha_informe.substr(0, 10)));
+    let arrayTia = datos_zona_ultimos7.map(elemento => elemento.tasa_incidencia_acumulada_ultimos_14dias);
     //Y lo mando dibujar
     //me he dado cuenta que para que aparezca de izquira a derecha, hay que dar la vuelta a los arrays
     dibujarGrafico(arrayFechas.reverse(), arrayTia.reverse());//les damos la vuelta
@@ -155,13 +102,13 @@ function pintar(fecha, localidad) {
     console.log("array fechas = " + arrayFechas);
     console.log("arrayTia = " + arrayTia);
 
-    pintarDatos(datos_localidad_ultimos7[0]);
+    pintarDatos(datos_zona_ultimos7[0]);
 }
 
-function localidadSeleccionada() {
+function zonaSeleccionada() {
     //alert("localidad_seleccionada = " + this.innerHTML);
-    localidad_sel = this.innerHTML;//obtengo la loclidad
-    ponerListaLocalidadesInvisible();
+    zona_sel = this.innerHTML;//obtengo la loclidad
+    ponerListaZonasInvisible();
     searchbar.value = this.innerHTML;
     //alert ("sbv " + searchbar.value);
 
@@ -169,11 +116,8 @@ function localidadSeleccionada() {
         alert("Seleccione una fecha");
     } else {
         fecha_sel = selectfechas.value;
-
-        pintar(fecha_sel, localidad_sel);
+        pintar(fecha_sel, zona_sel);
     }
-
-
 
 }
 
@@ -182,9 +126,9 @@ function fechaSeleccionada() {
     fecha_sel = selectfechas.value;
     console.log("Fecha seleccionada = " + selectfechas.value);
 
-    if (localidad_sel && fecha_sel) {
+    if (zona_sel && fecha_sel) {
 
-        pintar(fecha_sel, localidad_sel);
+        pintar(fecha_sel, zona_sel);
     } else {
         //alert("Selecciona una localidad");
     }
@@ -192,7 +136,7 @@ function fechaSeleccionada() {
 
 
 function mostrarIonSelectFechas(array_fechas) {
-    var etiqueta_ion_select = document.getElementById("listaFecha");
+    var etiqueta_ion_select = tabzbs ? document.getElementById("listaFechaZbs") : document.getElementById("listaFecha");
     let fecha_formato_DDMMAAA;
     let etiqueta_fecha = null;
     let primera_fecha;
@@ -227,29 +171,28 @@ function obtenerFechas(datosjson) {
 }
 
 function obtenerDatos() {
-    fetch("https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json")
+    let url_datos = tabzbs ? URL_DATOS_JSON_ZBS : URL_DATOS_JSON_LOCALIDADES;
+    selectfechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
+    selectfechas.addEventListener('ionChange', fechaSeleccionada);
+    searchbar = tabzbs ? document.getElementById("sbzbs") : document.getElementById('sblocalidad');
+    searchbar.addEventListener('ionInput', zonaModificada);
+    fetch(url_datos)
         .then(response => response.json())//paso de json a objeto
         .then(datosjson => {
-            console.log("datos covid cam ");
-            //console.log(datosjson);
-            // alert(datosjson);
             datos_cam = datosjson;
-            //console.log(datosjson.data[0].municipio_distrito);
-            let array_localidades = obtenerLocalidades(datosjson);
+            let array_localidades = obtenerZonas(datosjson);
             let array_fechas = obtenerFechas(datosjson);
-            // let array_fechas = obtenerFechas2 (datosjson);//versión alternativa
-            mostrarIonSearchBarLocalidades(array_localidades);
+            mostrarIonSearchBarZonas(array_localidades);
             mostrarIonSelectFechas(array_fechas);
-            //listalocalidades = Array.from(document.querySelector('ion-list').children);
-            listalocalidades = Array.from(document.getElementById('listalocalidades').children);
-
+            listazonas = tabzbs ? Array.from(document.getElementById('listazbs').children) : Array.from(document.getElementById('listalocalidades').children);
+          
 
         });
 }
 function dibujarGrafico(ejexFechas, ejeyTIA) {
     //OBTENERLOS DATOS
 
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = tabzbs ? document.getElementById('myChartZBS').getContext('2d') : document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -275,31 +218,24 @@ function dibujarGrafico(ejexFechas, ejeyTIA) {
 }
 
 
-/*function pintarDatos(pDatos) {
-
-    let datosCardTitle = document.getElementById("municipio");
-    let datosCard = document.getElementById("datos");
-
-    datosCardTitle.innerHTML = pDatos[0].municipio_distrito
-    datosCard.innerHTML = `<p>Casos totales: ${pDatos[0].casos_confirmados_totales}</p>
-                           <p>​​Casos últimos 14dias: ${pDatos[0].casos_confirmados_ultimos_14dias}</p>
-                           <p>​​Fecha informe: ${pDatos[0].fecha_informe}</p>
-                           <p>​​TIA total: ${pDatos[0].tasa_incidencia_acumulada_total}</p>
-                           <p>​​TIA 14dias: ${pDatos[0].tasa_incidencia_acumulada_ultimos_14dias}</p>`
-}*/
 
 function pintarDatos(arrayDatos) {
 
     console.log("Pintamos datos.");
+    let datos;
 
-    // if (isMunicipios)
-    document.getElementById("tituloLocalidad").innerHTML = arrayDatos.municipio_distrito;
-    //else
-    //    document.getElementById("tituloLocalidad").innerHTML = arrayDatos.zona_basica_salud;
-
-    document.getElementById("tituloFecha").innerHTML = formatFecha(arrayDatos.fecha_informe.substr(0, 10));
-
-    let datos = document.getElementById("datos");
+    if (tabzbs)
+    {
+        document.getElementById("tituloZBS").innerHTML = arrayDatos.zona_basica_salud;
+        document.getElementById("tituloFechaZBS").innerHTML = formatFecha(arrayDatos.fecha_informe.substr(0, 10));
+    } else {
+        document.getElementById("tituloLocalidad").innerHTML = arrayDatos.municipio_distrito;
+        document.getElementById("tituloFecha").innerHTML = formatFecha(arrayDatos.fecha_informe.substr(0, 10));
+    }
+    
+    
+  
+    datos = tabzbs ? document.getElementById("datosZBS") : document.getElementById("datos");
     datos.innerHTML = "Casos totales: " + arrayDatos.casos_confirmados_totales + "<br>";
     datos.innerHTML = datos.innerHTML + "Casos últimos 14 días: " + arrayDatos.casos_confirmados_ultimos_14dias + "<br>";
     datos.innerHTML = datos.innerHTML + "TIA total: " + arrayDatos.tasa_incidencia_acumulada_total.toFixed(2) + "<br>";
@@ -309,37 +245,35 @@ function pintarDatos(arrayDatos) {
 
 }
 
-//zonabajo del script
 
-const selectfechas = document.getElementById('listaFecha');
-selectfechas.addEventListener('ionChange', fechaSeleccionada);
-const searchbar = document.querySelector('ion-searchbar');
-
-
-searchbar.addEventListener('ionInput', handleInput);
-function ponerListaLocalidadesInvisible() {
-    listalocalidades.forEach(item => item.style.display = 'none');
+function ponerListaZonasInvisible() {
+    listazonas.forEach(item => item.style.display = 'none');
 }
 
-function handleInput(event) {
+function zonaModificada(event) {
     const query = event.target.value.toLowerCase();
-    //const items = Array.from(document.querySelector('ion-list').children);
+    
 
     //si query es vacia, hay que limipar la lista
     if (query == '') {
-        ponerListaLocalidadesInvisible();
+        ponerListaZonasInvisible();
     } else {
 
         requestAnimationFrame(() => {
-            listalocalidades.forEach(item => {
+            listazonas.forEach(item => {
                 //TODO VALORAR LA OPCIÓN DE JAIME 
                 const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;//la localidad tiene las letras introducidas?
-                //const shouldShow = item.textContent.toLowerCase().startsWith(query);//la localidad tiene las letras introducidas?
-
                 item.style.display = shouldShow ? 'block' : 'none';//operador ternaria
-                //if shouldShow== true --> estilo del elmento es block_ que se vea
-                //si no, none, que no se vea
+               
             });
         });
     }
+}
+
+
+function tabTocada (tipo)
+{
+    //alert("tab " + tipo + " tocada");
+    tabzbs = tipo == "zbs";//actualizamos tab en curso
+    obtenerDatos();
 }

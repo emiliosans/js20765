@@ -1,0 +1,14 @@
+.tituloapp {
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.50);
+  }
+  /*
+  .subtitulo {
+    text-transform: initial;
+  }*/
+
+  .subtitulo ion-title{
+    text-transform: initial;/*apareza mayuscula la primera y las siguientes minúsculas*/
+  }
+  .subtitulo ion-icon{
+    margin-left: 7px;/*apareza mayuscula la primera y las siguientes minúsculas*/
+  }

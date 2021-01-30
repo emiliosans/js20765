@@ -19,20 +19,55 @@
 
 // Wait for the deviceready event before using any of Cordova's device APIs.
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
+
+
 document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
-    //console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    //document.getElementById('deviceready').classList.add('ready');
+    //alert("dispo iniciado");
     document.addEventListener("backbutton", botonHaciaAtras, false);
-    //document.addEventListener("volumedownbutton", dentroVideo, false);
+    //alert("atrás programado");
 }
 
 function botonHaciaAtras ()
 {
-    alert("toca salir");
-    navigator.app.exitApp();//salimos de la app
+   salir2();                                                                
 }
+
+async function salir2() {
+    const alert = await alertController.create({
+        header: 'AVISO',
+        message: '¿Desea salir del programa?',
+        buttons: [{
+            text: 'NO',
+            role: 'cancel',
+            cssClass: 'secondary',
+        }, {
+            text: 'SÍ',
+            handler: () => {
+                navigator.app.exitApp();
+            }
+        }]
+    });
+
+   await alert.present();
+}
+
+function cambiaPagina(pagina) {
+
+    let ruta_actual = location.href;
+    let pag_actual = ruta_actual.substr(ruta_actual.lastIndexOf('/') + 1);
+
+    if (pag_actual.localeCompare(pagina) == 0)//
+    {
+
+      menuController.close();
+    } else {
+      location.href = pagina;
+    }
+
+
+  }
 
