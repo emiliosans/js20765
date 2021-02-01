@@ -30,7 +30,7 @@ function onDeviceReady() {
     document.addEventListener("backbutton", botonHaciaAtras, false);
     //alert("atrás programado");
 
-    //document.addEventListener("online", avisoOnline, false);
+    document.addEventListener("online", avisoOnline, false);
     document.addEventListener("offline", avisoOffline, false);
 }
 
@@ -38,18 +38,36 @@ function botonHaciaAtras() {
     salir2();
 }
 
+/**
+ * 
+ */
 
-function avisoOffline() {
-    /*navigator.notification.confirm(
-        'La aplicación requiere acceso a internet. Por favor, conecte los datos y pulse continuar o pulse salir.', // message
-        comprobarRespuestaInet,            // callback to invoke with index of button pressed
-        'Acceso a internet.',           // title
-        ['Salir','Continuar']     // buttonLabels
-    );*/
 
-    alert ("vas sin internet por la vida");
 
+async function avisoOffline() {
+
+    alerta = await alertController.create({
+        header: 'Error acceso a internet',
+        message: 'La aplicación requiere acceso a internet. Por favor, conecte los datos o pulse salir.',
+        buttons: [{
+            text: 'Salir',
+            handler: () => {
+                navigator.app.exitApp();
+            }
+        }]
+    });
+
+    await alerta.present();
 }
+
+function avisoOnline() {
+    if (alerta != null) {
+        alerta.dismiss();
+        location.reload();
+    }
+}
+
+
 
 async function salir2() {
     const alert = await alertController.create({
@@ -70,6 +88,10 @@ async function salir2() {
     await alert.present();
 }
 
+/**
+ * Esta función se invoca al tocar el botón de meud
+ * @param la pagina a la que el usuario quiere diriirse 
+ */
 function cambiaPagina(pagina) {
 
     let ruta_actual = location.href;
