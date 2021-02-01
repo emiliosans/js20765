@@ -29,11 +29,26 @@ function onDeviceReady() {
     //alert("dispo iniciado");
     document.addEventListener("backbutton", botonHaciaAtras, false);
     //alert("atrás programado");
+
+    //document.addEventListener("online", avisoOnline, false);
+    document.addEventListener("offline", avisoOffline, false);
 }
 
-function botonHaciaAtras ()
-{
-   salir2();                                                                
+function botonHaciaAtras() {
+    salir2();
+}
+
+
+function avisoOffline() {
+    /*navigator.notification.confirm(
+        'La aplicación requiere acceso a internet. Por favor, conecte los datos y pulse continuar o pulse salir.', // message
+        comprobarRespuestaInet,            // callback to invoke with index of button pressed
+        'Acceso a internet.',           // title
+        ['Salir','Continuar']     // buttonLabels
+    );*/
+
+    alert ("vas sin internet por la vida");
+
 }
 
 async function salir2() {
@@ -52,7 +67,7 @@ async function salir2() {
         }]
     });
 
-   await alert.present();
+    await alert.present();
 }
 
 function cambiaPagina(pagina) {
@@ -63,11 +78,11 @@ function cambiaPagina(pagina) {
     if (pag_actual.localeCompare(pagina) == 0)//
     {
 
-      menuController.close();
+        menuController.close();
     } else {
-      location.href = pagina;
+        location.href = pagina;
     }
 
 
-  }
+}
 
