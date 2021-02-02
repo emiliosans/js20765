@@ -35,12 +35,17 @@ function onDeviceReady() {
 }
 
 function botonHaciaAtras() {
-    salir2();
+    let pagina_actual = obtenerPaginaActual();
+    if (pagina_actual.localeCompare("index.html")==0)
+    {
+        salir2();
+    } else {
+        navigator.app.backHistory();
+    }
+    
 }
 
-/**
- * 
- */
+
 
 
 
@@ -76,7 +81,7 @@ async function salir2() {
         buttons: [{
             text: 'NO',
             role: 'cancel',
-            cssClass: 'secondary',
+            cssClass: 'secondary'
         }, {
             text: 'SÍ',
             handler: () => {
@@ -88,23 +93,69 @@ async function salir2() {
     await alert.present();
 }
 
+function obtenerPaginaActual ()
+{
+    let pag_actual ='';
+    let ruta_actual = '';
+    
+        ruta_actual = location.href;
+        pag_actual = ruta_actual.substr(ruta_actual.lastIndexOf('/') + 1);
+
+    return pag_actual;
+}
 /**
  * Esta función se invoca al tocar el botón de meud
  * @param la pagina a la que el usuario quiere diriirse 
  */
 function cambiaPagina(pagina) {
 
-    let ruta_actual = location.href;
-    let pag_actual = ruta_actual.substr(ruta_actual.lastIndexOf('/') + 1);
+   // let ruta_actual = location.href;
+    let pag_actual = obtenerPaginaActual();// ruta_actual.substr(ruta_actual.lastIndexOf('/') + 1);
 
-    if (pag_actual.localeCompare(pagina) == 0)//
-    {
-
-        menuController.close();
-    } else {
-        location.href = pagina;
-    }
+    if (pagina.localeCompare("salir") == 0) {
+        navigator.app.exitApp();//preguntarle complica el código tontamente. si le da a salir del menú lateral, sale directo sin preguntar
+    } else
+        if (pag_actual.localeCompare(pagina) == 0)//
+        {
+            menuController.close();
+        } else {
+            location.href = pagina;
+        }
 
 
 }
+
+/*function pintarTabs()
+{
+    let botonesTab = null;
+    const COLOR_BTN_PULSADO = "secondary";
+    const COLOR_BTN_NO_PULSADO = "light";
+
+    botonesTab = document.getElementsByTagName("ion-tab-button");
+    for(let i = 0; i < botonesTab.length; i++) {
+      botonesTab[i].setAttribute("onclick", `btnColor(${i})`);
+    }
+
+    btnColor(0);
+
+    
+}
+
+function btnColor(btnPulsado) {
+
+    let hijos = null;
+
+    for(let i = 0; i < botonesTab.length; i++) {
+      hijos = botonesTab[i].childNodes;
+      for (let j = 0; j < hijos.length; j++) {
+        if (hijos[j].nodeType == Node.ELEMENT_NODE) {
+          if (i == btnPulsado) {
+            hijos[j].setAttribute("color", COLOR_BTN_PULSADO);
+          } else {
+            hijos[j].setAttribute("color", COLOR_BTN_NO_PULSADO);
+          }
+        }
+      }
+    }
+  }*/
 

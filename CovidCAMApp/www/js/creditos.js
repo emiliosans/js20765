@@ -1,5 +1,29 @@
 onload = recorrerJSON;
 
+let videosimon = document.getElementById("videosimon");
+videosimon.addEventListener("ended", ocultarVideo);
+let cuenta_clics=0;
+const NUM_CLICS = 3;
+function verVideo(){
+    console.log("se accede a la función verVideo");
+    videosimon.removeAttribute("hidden");
+    videosimon.play();
+}
+function ocultarVideo(){
+    console.log("Hemos entrado en la función");
+    videosimon.setAttribute("hidden", true);
+    
+}
+function egg(){
+   // alert ("card creditos tocada");
+   cuenta_clics++;
+    if (cuenta_clics == NUM_CLICS) {
+        cuenta_clics = 0;//reiniciamos el contador
+        verVideo();
+
+    } 
+}
+
 var data = [
 {
     nombre:"Jaime Muñoz",

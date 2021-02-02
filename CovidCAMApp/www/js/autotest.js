@@ -155,6 +155,11 @@ function presentAlert() {
     return alert.present();
 }
 
+function reiniciarTest() {
+  
+    location.reload();
+}
+
 
 
 

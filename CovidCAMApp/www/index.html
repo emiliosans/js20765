@@ -89,10 +89,6 @@
             <ion-label onclick="cambiaPagina('comparativa.html')">Comparar zonas</ion-label>
           </ion-item>
           <ion-item>
-            <ion-icon name="bonfire-outline" slot="start"></ion-icon>
-            <ion-label onclick="cambiaPagina('contagios.html')">Contagios España</ion-label>
-          </ion-item>
-          <ion-item>
             <ion-icon name="newspaper-outline" slot="start"></ion-icon>
             <ion-label onclick="cambiaPagina('noticias.html')">Noticias</ion-label>
           </ion-item>
@@ -108,6 +104,10 @@
             <ion-icon name="people-outline" slot="start"></ion-icon>
             <ion-label onclick="cambiaPagina('creditos.html')">Créditos</ion-label>
           </ion-item>
+          <ion-item>
+            <ion-icon name="exit-outline" slot="start"></ion-icon>
+            <ion-label onclick="cambiaPagina('salir')">Salir</ion-label>
+          </ion-item>
 
         </ion-list>
       </ion-content>
@@ -122,6 +122,7 @@
           <ion-title class="tituloapp">Covid CAM</ion-title>
         </ion-toolbar>
         <ion-toolbar class="subtitulo">
+          <ion-icon name="arrow-back-outline" style="zoom:2.0;" slot="start" onclick="botonHaciaAtras()"></ion-icon>
           <ion-icon name="map-outline" style="zoom:2.0;" slot="start"></ion-icon>
           <ion-title class="subtitulo">Mapas de Situación</ion-title>
         </ion-toolbar>
@@ -169,6 +170,39 @@
   </ion-app>
   <script src="cordova.js"></script>
   <script src="js/index.js"></script>
+  <script>
+
+    let botonesTab = null;
+    const COLOR_BTN_PULSADO = "secondary";
+    const COLOR_BTN_NO_PULSADO = "light";
+
+    botonesTab = document.getElementsByTagName("ion-tab-button");
+    for(let i = 0; i < botonesTab.length; i++) {
+      botonesTab[i].setAttribute("onclick", `btnColor(${i})`);
+    }
+
+    btnColor(0);
+
+    function btnColor(btnPulsado) {
+
+      let hijos = null;
+
+      for(let i = 0; i < botonesTab.length; i++) {
+        hijos = botonesTab[i].childNodes;
+        for (let j = 0; j < hijos.length; j++) {
+          if (hijos[j].nodeType == Node.ELEMENT_NODE) {
+            if (i == btnPulsado) {
+              hijos[j].setAttribute("color", COLOR_BTN_PULSADO);
+            } else {
+              hijos[j].setAttribute("color", COLOR_BTN_NO_PULSADO);
+            }
+          }
+        }
+      }
+    }
+
+
+  </script>
 </body>
 
 </html>
