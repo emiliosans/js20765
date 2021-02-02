@@ -159,3 +159,14 @@ function btnColor(btnPulsado) {
     }
   }*/
 
+  async function mostrarToast() {
+    const toast = document.createElement('ion-toast');
+    toast.message = 'NO SE HA PODIDO RECUPERAR LOS DATOS. CONSULTE OTRA SECCIÓN.';
+    toast.duration = 5000;
+    toast.color = "danger";
+    toast.position = "middle";
+  
+    document.body.appendChild(toast);
+    return toast.present();
+  }
+

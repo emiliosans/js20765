@@ -177,17 +177,23 @@ function obtenerDatos() {
     searchbar = tabzbs ? document.getElementById("sbzbs") : document.getElementById('sblocalidad');
     searchbar.addEventListener('ionInput', zonaModificada);
     fetch(url_datos)
-        .then(response => response.json())//paso de json a objeto
-        .then(datosjson => {
-            datos_cam = datosjson;
-            let array_localidades = obtenerZonas(datosjson);
-            let array_fechas = obtenerFechas(datosjson);
-            mostrarIonSearchBarZonas(array_localidades);
-            mostrarIonSelectFechas(array_fechas);
-            listazonas = tabzbs ? Array.from(document.getElementById('listazbs').children) : Array.from(document.getElementById('listalocalidades').children);
-          
-
-        });
+        .then(response => {
+            if (response.ok) {
+                response.json()
+                .then(datosjson => {
+                    datos_cam = datosjson;
+                    let array_localidades = obtenerZonas(datosjson);
+                    let array_fechas = obtenerFechas(datosjson);
+                    mostrarIonSearchBarZonas(array_localidades);
+                    mostrarIonSelectFechas(array_fechas);
+                    listazonas = tabzbs ? Array.from(document.getElementById('listazbs').children) : Array.from(document.getElementById('listalocalidades').children);
+                });
+            } else {
+                mostrarToast();
+            }
+        })
+        
+        .catch(error => mostrarToast());
 }
 function dibujarGrafico(ejexFechas, ejeyTIA) {
     //OBTENERLOS DATOS

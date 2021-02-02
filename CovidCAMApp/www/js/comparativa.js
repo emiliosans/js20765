@@ -69,6 +69,15 @@ function localidadesSeleccionadas() {
     }
 }
 
+function getMiLocalidad() {
+
+    let miLocalidad;
+    
+    miLocalidad = JSON.parse(localStorage.getItem('covidCAM_municipio'));
+    return miLocalidad.municipio;
+ 
+}
+
 function mostrarIonSelectLocalidades(array_localidades) {
     var elemento_lista1_localidades = document.getElementById("lista1localidades");
     var elemento_lista2_localidades = document.getElementById("lista2localidades");
@@ -85,21 +94,29 @@ function mostrarIonSelectLocalidades(array_localidades) {
         elemento_lista1_localidades.appendChild(item_localidad1);//añado al padre
         elemento_lista2_localidades.appendChild(item_localidad2);
     }
+    elemento_lista1_localidades.setAttribute('value', getMiLocalidad());
 
 }
 
 function cargaDatos() {
     fetch("https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json")
-        .then(response => response.json())//paso de json a objeto
-        .then(datosjson => {
-            console.log("datos covid cam ");
-            console.log(datosjson);
-            datos_cam = datosjson;
-            let array_localidades = obtenerLocalidades(datosjson);
-            fechas = obtenerFechas(datosjson);
-            mostrarIonSelectLocalidades(array_localidades);
-            fechas = fechas.reverse();
-        });
+        .then(response => {
+            if (response.ok) {
+                response.json()
+                .then(datosjson => {
+                    console.log("datos covid cam ");
+                    console.log(datosjson);
+                    datos_cam = datosjson;
+                    let array_localidades = obtenerLocalidades(datosjson);
+                    fechas = obtenerFechas(datosjson);
+                    mostrarIonSelectLocalidades(array_localidades);
+                    fechas = fechas.reverse();
+                })
+            } else {
+                mostrarToast();
+            }
+        })
+    .catch(error => mostrarToast());
 }
 
 //function dibujarGrafico(ejexFechas, ejeyTIA) {

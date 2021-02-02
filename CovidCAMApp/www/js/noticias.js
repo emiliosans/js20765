@@ -8,10 +8,40 @@ function cargarDatos() {
           let datos = new window.DOMParser().parseFromString(str, "text/xml");
           mostrarDatos(datos);
         })
-        .catch(error => alert("errorr" + error));
+        .catch(error => mostrarToast());
         
       //  .then(data => mostrarDatos(data)) 
    
+}
+
+function traducirFecha(fecha){
+    let resultado;
+    if (fecha.substring(3,6)=='Jan'){
+        resultado = fecha.replace('Jan', 'Enero');
+    }else if(fecha.substring(3,6)=='Feb'){
+        resultado = fecha.replace('Feb', 'Febrero');
+    }else if(fecha.substring(3,6)=='Mar'){
+        resultado = fecha.replace('Mar', 'Marzo');
+    }else if(fecha.substring(3,6)=='Apr'){
+        resultado = fecha.replace('Apr', 'Abril');
+    }else if(fecha.substring(3,6)=='May'){
+        resultado = fecha.replace('May', 'Mayo');
+    }else if(fecha.substring(3,6)=='Jun'){
+        resultado = fecha.replace('Jun', 'Junio');
+    }else if(fecha.substring(3,6)=='Jul'){
+        resultado = fecha.replace('Jul', 'Julio');
+    }else if(fecha.substring(3,6)=='Aug'){
+        resultado = fecha.replace('Aug', 'Agosto');
+    }else if(fecha.substring(3,6)=='Sep'){
+        resultado = fecha.replace('Sep', 'Septiembre');
+    }else if(fecha.substring(3,6)=='Oct'){
+        resultado = fecha.replace('Oct', 'Octubre');
+    }else if(fecha.substring(3,6)=='Nov'){
+        resultado = fecha.replace('Nov', 'Noviembre');
+    }else if(fecha.substring(3,6)=='Dec'){
+        resultado = fecha.replace('Dec', 'Diciembre');
+    }
+    return resultado;
 }
 function mostrarDatos(data){
     console.log(data);
@@ -47,7 +77,9 @@ function visualizoNoticias(array_noticias){
         //add vale
         let enlace = array_noticias[i].getElementsByTagName("link");
         //meto en las etiquetas ionic el contenido html de las etiquetas xml que guardé
-        h2.innerHTML = fecha.item(0).innerHTML.substring(5,16);//solo guardo una parte de la fecha/hora
+        let fecha_ingles = fecha.item(0).innerHTML.substring(5,16);//solo guardo una parte de la fecha/hora
+        let fecha_castellano = traducirFecha(fecha_ingles); //traducir la fecha
+        h2.innerHTML = fecha_castellano;
         h3.innerHTML = titulo.item(0).innerHTML;
         p.innerHTML = texto.item(0).innerHTML;
         p.style.textAlign='justify';

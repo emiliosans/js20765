@@ -11,24 +11,12 @@
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
     <link rel="stylesheet" href="css/global.css" />
-    <style>
-        :root {
-          --ion-safe-area-top: 20px;
-          --ion-safe-area-bottom: 22px;
-        }
-    
-        .iframe-mapa {
-          width: 100%;
-          height: 100vh;
-        }
-    
-      </style>
-      <script type="module">
+    <script type="module">
         import { menuController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
         import { alertController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
         window.menuController = menuController;
         window.alertController = alertController;
-      </script>
+    </script>
 </head>
 
 <body>
@@ -109,10 +97,7 @@
                 </ion-item>
     
                 <ion-card>
-                    <canvas id="compChart"></canvas>
-                    <ion-card-header>
-                        <ion-card-title id="municipios"></ion-card-title>
-                    </ion-card-header>
+                    <canvas id="compChart" width="400" height="400"></canvas>
                 </ion-card>
             </ion-content>
           </div>
