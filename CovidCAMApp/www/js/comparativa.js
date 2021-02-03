@@ -110,7 +110,7 @@ function cargaDatos() {
                     let array_localidades = obtenerLocalidades(datosjson);
                     fechas = obtenerFechas(datosjson);
                     mostrarIonSelectLocalidades(array_localidades);
-                    fechas = fechas.reverse();
+                    //fechas = fechas.reverse();
                 })
             } else {
                 mostrarToast();
@@ -124,6 +124,7 @@ function dibujarGraficos() {
     var ctx = document.getElementById('compChart').getContext('2d');
     TIA1 = TIA1.reverse();
     TIA2 = TIA2.reverse();
+    fechas = fechas.reverse();
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
