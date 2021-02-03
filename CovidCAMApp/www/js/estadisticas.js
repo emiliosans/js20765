@@ -6,7 +6,7 @@ const NUM_FECHAS_EJEX = 7;
 let fecha_sel;//la fecha seleccionada
 let zona_sel;//esto representa la ZBS o distrito/locaidad seleccionada según tab
 let datos_cam;//los datos de la CAM, bien sean los de zbs o municipio seǵun tab
-let tabzbs=false;//boolean para controar el qué pestaña está
+let tabzbs = false;//boolean para controar el qué pestaña está
 let selectfechas;//el desplegable de las fechas
 let etiqueta_ion_select;//la lista de fechas (hijo del anterior)
 let searchbar;//la caja de búsqueda
@@ -15,6 +15,7 @@ let elemento_lista_zonas;//la lista que va debajo de la caja anterior
 let zbs_favorita = null;//para controlar la zbs favorita
 let localidad_favorita = null;//la localidad favorita
 let zona_favorita = null;//y la zona - hiperónimo - favorita en la pestaña en curso
+let ultima_zona_pintada = null;//y la zona - hiperónimo - favorita en la pestaña en curso
 
 let listazonas = null;//un listado de zonas en memoria - bien ZBS o localidades-
 let url_datos;//la URL donde llamamos 
@@ -24,50 +25,49 @@ let card_estadisticas_localidades = document.getElementById("card-estadisticas-l
 let card_estadisticas_zbs = document.getElementById("card-estadisticas-zbs");
 let lista_zbs = document.getElementById("listazbs");
 
-
+let pvlocalidad = true;
+let pvzbs = true;
 
 //caso especial, la primera vez que entramos, además de obtener los datos
 //hay que recoger la zbs y / o localidad favorita
 //esta fucion se invoca en onload, antes de que se produzca la detección del tab
-function obtenerZonasFavoritas ()
-{
+function obtenerZonasFavoritas() {
     //alert("obteninedo favs");   
     zbs_favorita = obtenerZBSFavorita();
     localidad_favorita = obtenerLocalidadFavorita();
-    
+
 }
 
 
-function limpiarDatosEIniciarControles()
-{
+function limpiarDatosEIniciarControles() {
     //limpiamos fechas
     etiqueta_ion_select = tabzbs ? document.getElementById("listaFechaZbs") : document.getElementById("listaFecha");
     etiqueta_ion_select.innerHTML = '';
 
     ////limpiamos zonas
     elemento_lista_zonas = tabzbs ? document.getElementById("listazbs") : document.getElementById("listalocalidades");
-    elemento_lista_zonas.innerHTML='';
+    elemento_lista_zonas.innerHTML = '';
 
     selectfechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
-    selectfechas.innerHTML='';//vacío la lista de fechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
+    selectfechas.innerHTML = '';//vacío la lista de fechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
     selectfechas.addEventListener('ionChange', fechaSeleccionada);
-    
+
     searchbar = tabzbs ? document.getElementById("sbzbs") : document.getElementById('sblocalidad');
     searchbar.addEventListener('ionInput', zonaModificada);
-    searchbar.value='';
+    //searchbar.value = '';
 
     url_datos = tabzbs ? URL_DATOS_JSON_ZBS : URL_DATOS_JSON_LOCALIDADES;
-    zona_favorita = null;
+    //zona_favorita = null;
     zona_favorita = tabzbs ? zbs_favorita : localidad_favorita;
     //alert("zf = " + zona_favorita);
 
 }
 
-function tabTocada (eszbs)
-{
-   // alert("tab " + tipo + " tocada");
+function tabTocada(eszbs) {
+    // alert("tab " + tipo + " tocada");
     tabzbs = eszbs;//así sabemos en qué tab estamos. si es true, estamos en tab zbs, si no, en localidad
-   // alert("limpiando");
+    // alert("limpiando");
+
     limpiarDatosEIniciarControles();
     obtenerDatos();
 }
@@ -79,15 +79,14 @@ function obtenerLocalidadFavorita() {
     let localidad = null;
     let miLocalidad = null;
     let json_localidad = null;
-    
-        json_localidad = localStorage.getItem('covidCAM_municipio');
-        if (json_localidad!=null)
-        {
-            //hay algun valor
-            miLocalidad = JSON.parse(json_localidad);
-            localidad = miLocalidad.municipio;
 
-        }
+    json_localidad = localStorage.getItem('covidCAM_municipio');
+    if (json_localidad != null) {
+        //hay algun valor
+        miLocalidad = JSON.parse(json_localidad);
+        localidad = miLocalidad.municipio;
+
+    }
 
     return localidad;
 }
@@ -98,14 +97,13 @@ function obtenerZBSFavorita() {
     let mizbs = null;
     let zbsf = null;
     let json_zbs = null;
-    
-        json_zbs = localStorage.getItem('covidCAM_zbs');
-        if (json_zbs!=null)
-        {
-            //hay algun valor
-            mizbs = JSON.parse(json_zbs);
-            zbsf = mizbs.zbs;
-        }
+
+    json_zbs = localStorage.getItem('covidCAM_zbs');
+    if (json_zbs != null) {
+        //hay algun valor
+        mizbs = JSON.parse(json_zbs);
+        zbsf = mizbs.zbs;
+    }
 
     return zbsf;
 }
@@ -129,8 +127,8 @@ function obtenerZonas(datosjson) {
             fecha_nueva = true;
         }
     }
-    
-   // alert (array_zonas);
+
+    // alert (array_zonas);
     return array_zonas;
 }
 
@@ -146,7 +144,7 @@ function formatFecha(fecha) {
 
 function mostrarIonSearchBarZonas(array_localidades) {
     var elemento_lista_localidades = tabzbs ? document.getElementById("listazbs") : document.getElementById("listalocalidades");
-    elemento_lista_localidades.innerHTML='';// = tabzbs ? document.getElementById("listazbs") : document.getElementById("listalocalidades");
+    elemento_lista_localidades.innerHTML = '';// = tabzbs ? document.getElementById("listazbs") : document.getElementById("listalocalidades");
     let item_localidad;
 
     for (localidad of array_localidades) {
@@ -178,12 +176,13 @@ function obtenerPosicionFechaBuscada(datos_localidad, fecha_buscada) {
         }
     }
     console.log("encontrado en la pos " + posicion);
- 
+
     return posicion;
 }
 
 function pintar(fecha, zona) {
-    
+
+    ultima_zona_pintada = zona;
     //me quedo con la localidad seleccionada
     let datos_zonas = tabzbs ? datos_cam.data.filter(item => item.zona_basica_salud == zona) : datos_cam.data.filter(item => item.municipio_distrito == zona);
     console.log(datos_zonas);
@@ -277,23 +276,71 @@ function obtenerDatos() {
         .then(response => {
             if (response.ok) {
                 response.json()
-                .then(datosjson => {
-                    datos_cam = datosjson;
-                    let array_localidades = obtenerZonas(datosjson);
-                    let array_fechas = obtenerFechas(datosjson);
-                    mostrarIonSearchBarZonas(array_localidades);
-                    mostrarIonSelectFechas(array_fechas);
-                    listazonas = Array.from(elemento_lista_zonas.children);//tabzbs ? Array.from(document.getElementById('listazbs').children) : Array.from(document.getElementById('listalocalidades').children);
-                
-                    //mostramos por defecto los datos MIZONA/ZBS
-                    if (zona_favorita!=null)
-                    {
-                        zona_sel = zona_favorita;
-                        searchbar.value=zona_favorita;
-                        pintar(fecha_sel, zona_sel);
-                    }
-                    
-                });
+                    .then(datosjson => {
+                        datos_cam = datosjson;
+                        let array_localidades = obtenerZonas(datosjson);
+                        let array_fechas = obtenerFechas(datosjson);
+                        mostrarIonSearchBarZonas(array_localidades);
+                        mostrarIonSelectFechas(array_fechas);
+                        listazonas = Array.from(elemento_lista_zonas.children);//tabzbs ? Array.from(document.getElementById('listazbs').children) : Array.from(document.getElementById('listalocalidades').children);
+
+                        //mostramos por defecto los datos MIZONA/ZBS
+
+                        /* if (zona_favorita != null) {
+                             zona_sel = zona_favorita;
+                             searchbar.value = zona_favorita;
+                             pintar(fecha_sel, zona_sel);
+                         }*/
+
+                        if (tabzbs) { //toy en pestañazbs
+                            if (pvzbs) {//primera vez en zbs
+                                if (zbs_favorita) {
+                                    pvzbs = false;
+                                    zona_sel = zona_favorita;
+                                    searchbar.value = zona_favorita;
+                                    pintar(fecha_sel, zona_sel);
+                                }
+                            }
+
+                        }
+                        else {
+                            if (pvlocalidad) {//primera vez en zbs
+                                if (localidad_favorita) {
+                                    pvlocalidad = false;
+                                    zona_sel = zona_favorita;
+                                    searchbar.value = zona_favorita;
+                                    pintar(fecha_sel, zona_sel);
+                                }
+                            }
+
+                        }
+
+                        //si hay zona favorita 
+                        //y no tenía pintado nada
+
+                        //SI ESTOY EN TAB DE LOCALIDADES
+                        //SI HABÍA BUSQUEDA PREVIA
+                        //LA RESPETO Y NO TOCO NADA
+                        //SI NO, SI HAY LOCALIDAD FAVORITA
+                        //LA PINTO
+                        //SI NO, SI ESTOY EN ZBS
+                        //SI HABÍA BUSQUEDA PREVIA
+                        //OBSERVACIÓN DE ERNESTO
+                        //CUANDO VUELVES A LA TAB QUE NO SE CARGUE LA FAVORITA
+                        //SI NO QUE SE RESPESTE LA ANTERRIOS
+
+                        /*  if (zona_sel != null) {
+                              //ya seleccionó una
+                              //no hago nada
+                          } else {
+                              if (zona_favorita != null) {
+                                  zona_sel = zona_favorita;
+                                  searchbar.value = zona_favorita;
+                                  pintar(fecha_sel, zona_sel);
+                              }
+                          }*/
+
+                    });
             } else {
                 mostrarToast();
             }
@@ -336,20 +383,21 @@ function pintarDatos(arrayDatos) {
 
     lista_localidades.style.height = "auto";
     lista_zbs.style.height = "auto";
-    card_estadisticas_localidades.style.height = "calc(100vh - 316px)";
-    card_estadisticas_zbs.style.height = "calc(100vh - 316px)";
+    //card_estadisticas_localidades.style.height = "calc(100vh - 316px)";
+    card_estadisticas_localidades.style.height = "auto";//"calc(100vh - 316px)";
+    //card_estadisticas_zbs.style.height = "calc(100vh - 316px)";
+    card_estadisticas_zbs.style.height = "auto";
 
-    if (tabzbs)
-    {
+    if (tabzbs) {
         document.getElementById("tituloZBS").innerHTML = arrayDatos.zona_basica_salud;
         document.getElementById("tituloFechaZBS").innerHTML = formatFecha(arrayDatos.fecha_informe.substr(0, 10));
     } else {
         document.getElementById("tituloLocalidad").innerHTML = arrayDatos.municipio_distrito;
         document.getElementById("tituloFecha").innerHTML = formatFecha(arrayDatos.fecha_informe.substr(0, 10));
     }
-    
-    
-  
+
+
+
     datos = tabzbs ? document.getElementById("datosZBS") : document.getElementById("datos");
     datos.innerHTML = "Casos totales: " + arrayDatos.casos_confirmados_totales + "<br>";
     datos.innerHTML = datos.innerHTML + "Casos últimos 14 días: " + arrayDatos.casos_confirmados_ultimos_14dias + "<br>";
@@ -367,7 +415,7 @@ function ponerListaZonasInvisible() {
 
 function zonaModificada(event) {
     const query = event.target.value.toLowerCase();
-    
+
 
     //si query es vacia, hay que limipar la lista
     if (query == '') {
@@ -383,7 +431,7 @@ function zonaModificada(event) {
                 card_estadisticas_localidades.style.height = "auto";
                 lista_zbs.style.height = "40vh";
                 card_estadisticas_zbs.style.height = "auto";
-               
+
             });
         });
     }

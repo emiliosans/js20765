@@ -32,7 +32,35 @@ function onDeviceReady() {
 
     document.addEventListener("online", avisoOnline, false);
     document.addEventListener("offline", avisoOffline, false);
+    
+    let pag_actual = obtenerPaginaActual();
+    if (pag_actual=="index.html")
+    {
+        let valor = JSON.parse(localStorage.getItem("Checkeado"));
+        if (!valor)
+        {
+            mostramosAvisoGPS();
+        }
+    }
+   
+
 }
+
+
+async function mostramosAvisoGPS() {
+    const alert = await alertController.create({
+      header: 'ADVERTENCIA',
+      message: 'Si no tiene activado el GPS, el mapa no puede mostrar su posición',
+      inputs: [{type:'checkbox',label:'No volver a mostrar', handler:(e)=>{console.log(e.checked),localStorage.setItem("Checkeado",JSON.stringify(e.checked))}}],
+      buttons: ['aceptar']
+      
+
+    });
+
+    await alert.present();
+}
+    
+
 
 function botonHaciaAtras() {
     let pagina_actual = obtenerPaginaActual();

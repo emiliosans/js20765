@@ -42,24 +42,23 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
   <link rel="stylesheet" href="css/global.css" />
   <style>
-
-    .searchbar-input.sc-ion-searchbar-md
-    {
+    .searchbar-input.sc-ion-searchbar-md {
       text-transform: initial;
     }
-    #listalocalidades, #listazbs {
-      height:0;
+
+    #listalocalidades,
+    #listazbs {
+      height: 0;
       overflow: scroll;
     }
+
     #card-estadisticas-localidades,
     #card-estadisticas-zbs {
       overflow: scroll;
       height: calc(100vh - 316px);
     }
- 
- 
   </style>
-   <script type="module">
+  <script type="module">
     import { menuController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
     import { alertController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
     window.menuController = menuController;
@@ -144,7 +143,7 @@
                 </ion-select>
               </ion-item>
 
-              <ion-searchbar  id="sblocalidad" placeholder="Localidad"></ion-searchbar>
+              <ion-searchbar id="sblocalidad" placeholder="Localidad"></ion-searchbar>
               <ion-list id="listalocalidades">
               </ion-list>
 
@@ -161,26 +160,25 @@
           </ion-tab>
           <ion-tab tab="tasa-incidencia-zbs">
             <ion-nav>
-              <ion-nav>
-                <ion-item>
-                  <ion-label>Fecha de informe</ion-label>
-                  <ion-select id="listaFechaZbs">
-                  </ion-select>
-                </ion-item>
-  
-                <ion-searchbar id="sbzbs" placeholder="Zona Básica de Salud"></ion-searchbar>
-                <ion-list id="listazbs">
-                </ion-list>
-  
-                <ion-card id="card-estadisticas-zbs">
-                  <canvas id="myChartZBS"></canvas>
-                  <ion-card-header>
-                    <ion-card-title id="tituloZBS"></ion-card-title>
-                    <ion-card-subtitle id="tituloFechaZBS"></ion-card-subtitle>
-                  </ion-card-header>
-                  <ion-card-content id="datosZBS">
-                  </ion-card-content>
-                </ion-card>
+              <ion-item>
+                <ion-label>Fecha de informe</ion-label>
+                <ion-select id="listaFechaZbs">
+                </ion-select>
+              </ion-item>
+
+              <ion-searchbar id="sbzbs" placeholder="Zona Básica de Salud"></ion-searchbar>
+              <ion-list id="listazbs">
+              </ion-list>
+
+              <ion-card id="card-estadisticas-zbs">
+                <canvas id="myChartZBS"></canvas>
+                <ion-card-header>
+                  <ion-card-title id="tituloZBS"></ion-card-title>
+                  <ion-card-subtitle id="tituloFechaZBS"></ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content id="datosZBS">
+                </ion-card-content>
+              </ion-card>
             </ion-nav>
           </ion-tab>
           <ion-tab-bar slot="bottom" color="danger">
@@ -208,16 +206,15 @@
     //BUG ERROR CURIOSÍSIMO EN ONCLICK SOBRE EL TAB. DEJA DE FUNCIONAR TRAS TOCAR VARIAS VECES
 
     let iontab = document.getElementById("iontabpadre");
-    iontab.addEventListener ('ionTabsWillChange', cambioTab);
+    iontab.addEventListener('ionTabsWillChange', cambioTab);
 
-    async function cambioTab()
-    {
+    async function cambioTab() {
       //alert ("va a cambiar de tab");
       let nombretab = await iontab.getSelected();
       //alert ("nombre tab " + nombretab);
-      let eszbs = (nombretab=="tasa-incidencia-zbs");
-      tabTocada (eszbs);
-      
+      let eszbs = (nombretab == "tasa-incidencia-zbs");
+      tabTocada(eszbs);
+
 
     }
 
@@ -227,7 +224,7 @@
     const COLOR_BTN_NO_PULSADO = "light";
 
     botonesTab = document.getElementsByTagName("ion-tab-button");
-    for(let i = 0; i < botonesTab.length; i++) {
+    for (let i = 0; i < botonesTab.length; i++) {
       botonesTab[i].setAttribute("onclick", `btnColor(${i})`);
     }
 
@@ -237,7 +234,7 @@
 
       let hijos = null;
 
-      for(let i = 0; i < botonesTab.length; i++) {
+      for (let i = 0; i < botonesTab.length; i++) {
         hijos = botonesTab[i].childNodes;
         for (let j = 0; j < hijos.length; j++) {
           if (hijos[j].nodeType == Node.ELEMENT_NODE) {

@@ -73,10 +73,7 @@ function parseaGraficosCSVMadrid() {
             dibujarGraficosCCAA(array_datos_parseado);
 
         })
-        .catch(function (error) {
-            window.alert("HA FALLADO EL CSV de las graficas de la pagina de civio Error: ", error.message);
-            console.log('HA FALLADO EL CSV de las graficas de la pagina de civio. Hubo un problema con la petición Fetch:', error.message);
-        });
+        .catch(error => mostrarToast());
 
 }
 //OTRA FUNCION PARA PARSEAR CSV, A DIFERENCIA DE LA ANTERIOR, DEVUELVE UN ARRAY DE ARRAYS EN EL QUE CADA ARRAY
@@ -344,9 +341,11 @@ function muestraDatosVacunaEspanaDosPuntoCero(datos) {
     let chart1_texto = document.getElementById("chart1_text");
 
     num_entregadas.innerHTML = dosis[4];
-    chart1_texto.innerHTML = "En España se han entregado un total de <b>" + dosis[4] +
-        "</b> dosis de las cuales el <b>" + (total_Pfizer * 100 / entregadas_total).toFixed(2) + "%</b> son de Pfizer y el <b>" +
-        trunc((((total_Moderna * 100) / entregadas_total) * 0.001), 2) + "% </b> son de Moderna.";
+    chart1_texto.innerHTML = "<b>" + (total_Pfizer * 100 / entregadas_total).toFixed(2) + "%</b> de Pfizer y el<br><b>" +
+        trunc((((total_Moderna * 100) / entregadas_total) * 0.001), 2) + "% </b> de Moderna";
+     /*   chart1_texto.innerHTML = "En España se han entregado un total de <b>" + dosis[4] +
+        "</b> dosis de las cuales el <b>" + (total_Pfizer * 100 / entregadas_total).toFixed(2) + "%</b> de Pfizer y el <b>" +
+        trunc((((total_Moderna * 100) / entregadas_total) * 0.001), 2) + "% </b> de Moderna.";*/
 
 
     let admin_total = dosis[5];
@@ -355,9 +354,11 @@ function muestraDatosVacunaEspanaDosPuntoCero(datos) {
     let chart2_texto = document.getElementById("chart2_text");
     console.log("admin_total", admin_total);
     dosis_admin.innerHTML = admin_total;
-    chart2_texto.innerHTML = "En España se han administrado <b>" + admin_total +
+    chart2_texto.innerHTML = "<b>" +(admin_total.replace('.', "") * 100 / entregadas_total).toFixed(2) + "%</b> de las dosis recibidas";
+    
+        /*chart2_texto.innerHTML = "En España se han administrado <b>" + admin_total +
         "</b> dosis que son el <b>" + (admin_total.replace('.', "") * 100 / entregadas_total).toFixed(2) + "%</b> de las dosis entregadas y el <b>" +
-        admin_por_total + "%</b> de la población."
+        admin_por_total + "%</b> de la población." */
 
 
     let adminx2_total = dosis[7];
@@ -366,8 +367,10 @@ function muestraDatosVacunaEspanaDosPuntoCero(datos) {
     let chart3_texto = document.getElementById("chart3_text");
     console.log("pauta_comp", adminx2_total);
     num_adminx2.innerHTML = adminx2_total;
-    chart3_texto.innerHTML = "En España ya hay <b>" + adminx2_total +
-        "</b> personas con la pauta completa administrada. Esto es el <b>" + adminx2_por_total + "%</b> de la población."
+    chart3_texto.innerHTML = "<b>" + adminx2_por_total + "%</b> de la población";
+
+        /*chart3_texto.innerHTML = "En España ya hay <b>" + adminx2_total +
+        "</b> personas con la pauta completa administrada.<br>Esto es el <b>" + adminx2_por_total + "%</b> de la población."*/
     let fecha = document.getElementById("fechaActu");
     fecha.innerHTML = dosis[0];
 }
