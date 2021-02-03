@@ -43,12 +43,10 @@
   <link rel="stylesheet" href="css/global.css" />
   <style>
 
-
     .searchbar-input.sc-ion-searchbar-md
     {
       text-transform: initial;
     }
-
  
   </style>
    <script type="module">
@@ -126,7 +124,7 @@
       </ion-header>
       <ion-content class="ion-padding">
 
-        <ion-tabs>
+        <ion-tabs id="iontabpadre">
 
           <ion-tab tab="tasa-incidencia-municipios">
             <ion-nav>
@@ -138,7 +136,6 @@
 
               <ion-searchbar  id="sblocalidad" placeholder="Localidad"></ion-searchbar>
               <ion-list id="listalocalidades">
-
               </ion-list>
 
               <ion-card >
@@ -163,7 +160,6 @@
   
                 <ion-searchbar id="sbzbs" placeholder="Zona Básica de Salud"></ion-searchbar>
                 <ion-list id="listazbs">
-  
                 </ion-list>
   
                 <ion-card>
@@ -178,13 +174,13 @@
             </ion-nav>
           </ion-tab>
           <ion-tab-bar slot="bottom" color="danger">
-
-            <ion-tab-button tab="tasa-incidencia-municipios" onclick="tabTocada('municipios')">
+            <!--programado el callback en los tres partes del tab si no, no lo coge-->
+            <ion-tab-button tab="tasa-incidencia-municipios">
               <ion-icon name="business-outline"></ion-icon>
               <ion-label>Localidad</ion-label>
             </ion-tab-button>
 
-            <ion-tab-button tab="tasa-incidencia-zbs" onclick="tabTocada('zbs')">
+            <ion-tab-button tab="tasa-incidencia-zbs">
               <ion-icon name="fitness-outline"></ion-icon>
               <ion-label>ZBS</ion-label>
             </ion-tab-button>
@@ -198,6 +194,23 @@
   <script src="js/index.js"></script>
   <script src="js/estadisticas.js"></script>
   <script>
+
+    //BUG ERROR CURIOSÍSIMO EN ONCLICK SOBRE EL TAB. DEJA DE FUNCIONAR TRAS TOCAR VARIAS VECES
+
+    let iontab = document.getElementById("iontabpadre");
+    iontab.addEventListener ('ionTabsWillChange', cambioTab);
+
+    async function cambioTab()
+    {
+      alert ("va a cambiar de tab");
+      let nombretab = await iontab.getSelected();
+      //alert ("nombre tab " + nombretab);
+      let eszbs = (nombretab=="tasa-incidencia-zbs");
+      tabTocada (eszbs);
+      //obtenerDatos
+
+    }
+
 
     let botonesTab = null;
     const COLOR_BTN_PULSADO = "secondary";

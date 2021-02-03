@@ -1,4 +1,4 @@
-onload = obtenerDatos;
+onload = obtenerZonasFavoritas;
 
 const URL_DATOS_JSON_ZBS = "https://datos.comunidad.madrid/catalogo/dataset/b3d55e40-8263-4c0b-827d-2bb23b5e7bab/resource/907a2df0-2334-4ca7-aed6-0fa199c893ad/download/covid19_tia_zonas_basicas_salud_s.json";
 const URL_DATOS_JSON_LOCALIDADES = "https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json";
@@ -9,8 +9,67 @@ let datos_cam;//los datos de la CAM, bien sean los de zbs o municipio seǵun tab
 let tabzbs=false;
 let selectfechas;
 let searchbar;
+let zbs_favorita;
+let localidad_favorita;
+let zona_favorita = null;
 
 let listazonas = null;
+
+
+//caso especial, la primera vez que entramos, además de obtener los datos
+//hay que recoger la zbs y / o localidad favorita
+function obtenerZonasFavoritas ()
+{
+    alert("obteninedo favs");   
+    zbs_favorita = obtenerZBSFavorita();
+    localidad_favorita = obtenerLocalidadFavorita();
+    //obtenerDatos();
+}
+
+
+function obtenerLocalidadFavorita() {
+
+    let localidad = null;
+    let miLocalidad = null;
+    let json_localidad = null;
+    
+        json_localidad = localStorage.getItem('covidCAM_municipio');
+        if (json_localidad!=null)
+        {
+            //hay algun valor
+            miLocalidad = JSON.parse(json_localidad);
+            localidad = miLocalidad.municipio;
+
+        }
+
+    return localidad;
+}
+
+
+function obtenerZBSFavorita() {
+
+    let mizbs = null;
+    let zbsf = null;
+    let json_zbs = null;
+    
+        json_zbs = localStorage.getItem('covidCAM_zbs');
+        if (json_zbs!=null)
+        {
+            //hay algun valor
+            mizbs = JSON.parse(json_zbs);
+            zbsf = mizbs.zbs;
+        }
+
+    return zbsf;
+}
+
+function tabTocada (eszbs)
+{
+   // alert("tab " + tipo + " tocada");
+    tabzbs = eszbs;
+    obtenerDatos();
+}
+
 function obtenerZonas(datosjson) {
     let array_zonas = [];
     let zona;
@@ -29,7 +88,7 @@ function obtenerZonas(datosjson) {
         }
     }
     
-
+   // alert (array_zonas);
     return array_zonas;
 }
 
@@ -45,6 +104,7 @@ function formatFecha(fecha) {
 
 function mostrarIonSearchBarZonas(array_localidades) {
     var elemento_lista_localidades = tabzbs ? document.getElementById("listazbs") : document.getElementById("listalocalidades");
+    elemento_lista_localidades.innerHTML='';// = tabzbs ? document.getElementById("listazbs") : document.getElementById("listalocalidades");
     let item_localidad;
 
     for (localidad of array_localidades) {
@@ -137,6 +197,7 @@ function fechaSeleccionada() {
 
 function mostrarIonSelectFechas(array_fechas) {
     var etiqueta_ion_select = tabzbs ? document.getElementById("listaFechaZbs") : document.getElementById("listaFecha");
+    etiqueta_ion_select.innerHTML = '';//tabzbs ? document.getElementById("listaFechaZbs") : document.getElementById("listaFecha");
     let fecha_formato_DDMMAAA;
     let etiqueta_fecha = null;
     let primera_fecha;
@@ -166,13 +227,18 @@ function obtenerFechas(datosjson) {
     console.log(listado_fechas_unico.length);
     console.log(listado_fechas_unico);
 
-
+    //alert (listado_fechas_unico);
     return listado_fechas_unico;
 }
 
 function obtenerDatos() {
+    alert("llamando a obtener datos");
     let url_datos = tabzbs ? URL_DATOS_JSON_ZBS : URL_DATOS_JSON_LOCALIDADES;
+    zona_favorita = null;
+    zona_favorita = tabzbs ? zbs_favorita : localidad_favorita;
+    alert("zf = " + zona_favorita);
     selectfechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
+    selectfechas.innerHTML='';//vacío la lista de fechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
     selectfechas.addEventListener('ionChange', fechaSeleccionada);
     searchbar = tabzbs ? document.getElementById("sbzbs") : document.getElementById('sblocalidad');
     searchbar.addEventListener('ionInput', zonaModificada);
@@ -187,13 +253,20 @@ function obtenerDatos() {
                     mostrarIonSearchBarZonas(array_localidades);
                     mostrarIonSelectFechas(array_fechas);
                     listazonas = tabzbs ? Array.from(document.getElementById('listazbs').children) : Array.from(document.getElementById('listalocalidades').children);
+                
+                    //mostramos por defecto los datos MIZONA/ZBS
+                    if (zona_favorita!=null)
+                    {
+                        zona_sel = zona_favorita;
+                        searchbar.value=zona_favorita;
+                        pintar(fecha_sel, zona_sel);
+                    }
+                    
                 });
             } else {
                 mostrarToast();
             }
-        })
-        
-        .catch(error => mostrarToast());
+        }).catch(error => mostrarToast());
 }
 function dibujarGrafico(ejexFechas, ejeyTIA) {
     //OBTENERLOS DATOS
@@ -207,7 +280,7 @@ function dibujarGrafico(ejexFechas, ejeyTIA) {
         data: {
             labels: ejexFechas,//['ATLÉTICO', 'BARCELONA', 'REAL MADRID'],//7 fechas
             datasets: [{
-                label: 'TIA 14 días',
+                label: 'Tasa de Indicendia Acumulada en 14 días',
                 backgroundColor: 'rgb(235, 68, 90)',//'tomato',//'rgb(16, 26, 214)',
                 //borderColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 255, 255)',
@@ -277,9 +350,3 @@ function zonaModificada(event) {
 }
 
 
-function tabTocada (tipo)
-{
-    //alert("tab " + tipo + " tocada");
-    tabzbs = tipo == "zbs";//actualizamos tab en curso
-    obtenerDatos();
-}
