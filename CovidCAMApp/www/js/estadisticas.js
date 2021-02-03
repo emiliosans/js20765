@@ -19,6 +19,11 @@ let zona_favorita = null;//y la zona - hiperónimo - favorita en la pestaña en 
 let listazonas = null;//un listado de zonas en memoria - bien ZBS o localidades-
 let url_datos;//la URL donde llamamos 
 
+let lista_localidades = document.getElementById("listalocalidades");
+let card_estadisticas_localidades = document.getElementById("card-estadisticas-localidades");
+let card_estadisticas_zbs = document.getElementById("card-estadisticas-zbs");
+let lista_zbs = document.getElementById("listazbs");
+
 
 
 //caso especial, la primera vez que entramos, además de obtener los datos
@@ -329,6 +334,11 @@ function pintarDatos(arrayDatos) {
     console.log("Pintamos datos.");
     let datos;
 
+    lista_localidades.style.height = "auto";
+    lista_zbs.style.height = "auto";
+    card_estadisticas_localidades.style.height = "calc(100vh - 316px)";
+    card_estadisticas_zbs.style.height = "calc(100vh - 316px)";
+
     if (tabzbs)
     {
         document.getElementById("tituloZBS").innerHTML = arrayDatos.zona_basica_salud;
@@ -369,6 +379,10 @@ function zonaModificada(event) {
                 //TODO VALORAR LA OPCIÓN DE JAIME 
                 const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;//la localidad tiene las letras introducidas?
                 item.style.display = shouldShow ? 'block' : 'none';//operador ternaria
+                lista_localidades.style.height = "40vh";
+                card_estadisticas_localidades.style.height = "auto";
+                lista_zbs.style.height = "40vh";
+                card_estadisticas_zbs.style.height = "auto";
                
             });
         });
