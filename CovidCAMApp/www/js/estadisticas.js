@@ -3,28 +3,70 @@ onload = obtenerZonasFavoritas;
 const URL_DATOS_JSON_ZBS = "https://datos.comunidad.madrid/catalogo/dataset/b3d55e40-8263-4c0b-827d-2bb23b5e7bab/resource/907a2df0-2334-4ca7-aed6-0fa199c893ad/download/covid19_tia_zonas_basicas_salud_s.json";
 const URL_DATOS_JSON_LOCALIDADES = "https://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/877fa8f5-cd6c-4e44-9df5-0fb60944a841/download/covid19_tia_muni_y_distritos_s.json";
 const NUM_FECHAS_EJEX = 7;
-let fecha_sel;
+let fecha_sel;//la fecha seleccionada
 let zona_sel;//esto representa la ZBS o distrito/locaidad seleccionada según tab
 let datos_cam;//los datos de la CAM, bien sean los de zbs o municipio seǵun tab
-let tabzbs=false;
-let selectfechas;
-let searchbar;
-let zbs_favorita;
-let localidad_favorita;
-let zona_favorita = null;
+let tabzbs=false;//boolean para controar el qué pestaña está
+let selectfechas;//el desplegable de las fechas
+let etiqueta_ion_select;//la lista de fechas (hijo del anterior)
+let searchbar;//la caja de búsqueda
+let elemento_lista_zonas;//la lista que va debajo de la caja anterior
 
-let listazonas = null;
+let zbs_favorita = null;//para controlar la zbs favorita
+let localidad_favorita = null;//la localidad favorita
+let zona_favorita = null;//y la zona - hiperónimo - favorita en la pestaña en curso
+
+let listazonas = null;//un listado de zonas en memoria - bien ZBS o localidades-
+let url_datos;//la URL donde llamamos 
+
 
 
 //caso especial, la primera vez que entramos, además de obtener los datos
 //hay que recoger la zbs y / o localidad favorita
+//esta fucion se invoca en onload, antes de que se produzca la detección del tab
 function obtenerZonasFavoritas ()
 {
-    alert("obteninedo favs");   
+    //alert("obteninedo favs");   
     zbs_favorita = obtenerZBSFavorita();
     localidad_favorita = obtenerLocalidadFavorita();
-    //obtenerDatos();
+    
 }
+
+
+function limpiarDatosEIniciarControles()
+{
+    //limpiamos fechas
+    etiqueta_ion_select = tabzbs ? document.getElementById("listaFechaZbs") : document.getElementById("listaFecha");
+    etiqueta_ion_select.innerHTML = '';
+
+    ////limpiamos zonas
+    elemento_lista_zonas = tabzbs ? document.getElementById("listazbs") : document.getElementById("listalocalidades");
+    elemento_lista_zonas.innerHTML='';
+
+    selectfechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
+    selectfechas.innerHTML='';//vacío la lista de fechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
+    selectfechas.addEventListener('ionChange', fechaSeleccionada);
+    
+    searchbar = tabzbs ? document.getElementById("sbzbs") : document.getElementById('sblocalidad');
+    searchbar.addEventListener('ionInput', zonaModificada);
+    searchbar.value='';
+
+    url_datos = tabzbs ? URL_DATOS_JSON_ZBS : URL_DATOS_JSON_LOCALIDADES;
+    zona_favorita = null;
+    zona_favorita = tabzbs ? zbs_favorita : localidad_favorita;
+    //alert("zf = " + zona_favorita);
+
+}
+
+function tabTocada (eszbs)
+{
+   // alert("tab " + tipo + " tocada");
+    tabzbs = eszbs;//así sabemos en qué tab estamos. si es true, estamos en tab zbs, si no, en localidad
+   // alert("limpiando");
+    limpiarDatosEIniciarControles();
+    obtenerDatos();
+}
+
 
 
 function obtenerLocalidadFavorita() {
@@ -63,12 +105,7 @@ function obtenerZBSFavorita() {
     return zbsf;
 }
 
-function tabTocada (eszbs)
-{
-   // alert("tab " + tipo + " tocada");
-    tabzbs = eszbs;
-    obtenerDatos();
-}
+
 
 function obtenerZonas(datosjson) {
     let array_zonas = [];
@@ -196,8 +233,6 @@ function fechaSeleccionada() {
 
 
 function mostrarIonSelectFechas(array_fechas) {
-    var etiqueta_ion_select = tabzbs ? document.getElementById("listaFechaZbs") : document.getElementById("listaFecha");
-    etiqueta_ion_select.innerHTML = '';//tabzbs ? document.getElementById("listaFechaZbs") : document.getElementById("listaFecha");
     let fecha_formato_DDMMAAA;
     let etiqueta_fecha = null;
     let primera_fecha;
@@ -232,16 +267,7 @@ function obtenerFechas(datosjson) {
 }
 
 function obtenerDatos() {
-    alert("llamando a obtener datos");
-    let url_datos = tabzbs ? URL_DATOS_JSON_ZBS : URL_DATOS_JSON_LOCALIDADES;
-    zona_favorita = null;
-    zona_favorita = tabzbs ? zbs_favorita : localidad_favorita;
-    alert("zf = " + zona_favorita);
-    selectfechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
-    selectfechas.innerHTML='';//vacío la lista de fechas = tabzbs ? document.getElementById('listaFechaZbs') : document.getElementById('listaFecha');
-    selectfechas.addEventListener('ionChange', fechaSeleccionada);
-    searchbar = tabzbs ? document.getElementById("sbzbs") : document.getElementById('sblocalidad');
-    searchbar.addEventListener('ionInput', zonaModificada);
+    //alert("llamando a obtener datos");
     fetch(url_datos)
         .then(response => {
             if (response.ok) {
@@ -252,7 +278,7 @@ function obtenerDatos() {
                     let array_fechas = obtenerFechas(datosjson);
                     mostrarIonSearchBarZonas(array_localidades);
                     mostrarIonSelectFechas(array_fechas);
-                    listazonas = tabzbs ? Array.from(document.getElementById('listazbs').children) : Array.from(document.getElementById('listalocalidades').children);
+                    listazonas = Array.from(elemento_lista_zonas.children);//tabzbs ? Array.from(document.getElementById('listazbs').children) : Array.from(document.getElementById('listalocalidades').children);
                 
                     //mostramos por defecto los datos MIZONA/ZBS
                     if (zona_favorita!=null)
