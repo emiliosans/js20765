@@ -354,7 +354,7 @@ function muestraDatosVacunaEspanaDosPuntoCero(datos) {
     let chart2_texto = document.getElementById("chart2_text");
     console.log("admin_total", admin_total);
     dosis_admin.innerHTML = admin_total;
-    chart2_texto.innerHTML = "<b>" +(admin_total.replace('.', "") * 100 / entregadas_total).toFixed(2) + "%</b> de las dosis recibidas";
+    chart2_texto.innerHTML = "El <b>" +(admin_total.replace('.', "") * 100 / entregadas_total).toFixed(2) + "%</b> de vacunas recibidas ya han sido administradas";
     
         /*chart2_texto.innerHTML = "En España se han administrado <b>" + admin_total +
         "</b> dosis que son el <b>" + (admin_total.replace('.', "") * 100 / entregadas_total).toFixed(2) + "%</b> de las dosis entregadas y el <b>" +
